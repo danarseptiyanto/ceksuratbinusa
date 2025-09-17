@@ -25,6 +25,14 @@ export default function AppLayout({ header, children }) {
                         <Link href={route("dashboard")}>Dashboard</Link>
                     </li>
                     <li>
+                        <Link href={route("surat.index")}>Surat Keluar</Link>
+                    </li>
+                    <li>
+                        <Link href={route("surat-masuk.index")}>
+                            Surat Masuk
+                        </Link>
+                    </li>
+                    <li>
                         <Link href={route("profile.edit")}>Profile</Link>
                     </li>
                     <li>
