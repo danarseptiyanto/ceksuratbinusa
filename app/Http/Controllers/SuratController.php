@@ -23,7 +23,7 @@ class SuratController extends Controller
 
         $surats = Surat::where('tahun_ajaran_id', $activeTahunAjaranId)
             ->orderBy('tanggal_surat', 'desc')
-            ->paginate(10); // Using pagination
+            ->get(); // Using pagination
 
         return Inertia::render('Surat/Index', [
             'surats' => $surats
