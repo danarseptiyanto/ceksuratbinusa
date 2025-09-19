@@ -42,7 +42,7 @@ export default function Index({ surats }) {
     }
 
     return (
-        <AppLayout header="Daftar Nomor Surat">
+        <AppLayout>
             <Head title="Daftar Surat" />
 
             <div className="flex justify-between items-center mb-4">
