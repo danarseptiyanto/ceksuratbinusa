@@ -1,6 +1,12 @@
 import { useState, useMemo } from "react";
+import {
+    MoreHorizontal,
+    CalendarArrowUp,
+    CircleCheck,
+    CircleAlert,
+} from "lucide-react";
 import AppLayout from "@/Layouts/AppLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import {
     Table,
     TableBody,
@@ -9,8 +15,15 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-
+import { Button } from "@/components/ui/button";
 export default function Index({ surats }) {
     const { delete: destroy } = useForm();
     const [searchTerm, setSearchTerm] = useState("");
@@ -43,9 +56,10 @@ export default function Index({ surats }) {
 
     return (
         <AppLayout>
-            <Head title="Daftar Surat" />
-
-            <div className="flex justify-between items-center mb-4">
+            <div>
+                <h1>Surat Masuk</h1>
+            </div>
+            <div className="flex my-4 justify-between items-center">
                 <Input
                     type="text"
                     placeholder="Cari nomor atau perihal surat..."
@@ -53,11 +67,8 @@ export default function Index({ surats }) {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="max-w-sm"
                 />
-                <Link
-                    href={route("surat.create")}
-                    className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
-                >
-                    + Tambah Nomor Baru
+                <Link href={route("surat.create")}>
+                    <Button>Tambah Surat</Button>
                 </Link>
             </div>
 
@@ -66,14 +77,17 @@ export default function Index({ surats }) {
                     <TableHeader className="bg-muted">
                         <TableRow>
                             <TableHead className="w-[10px]">No</TableHead>
-                            <TableHead className="w-[210px]">
+                            <TableHead className="w-[210px] text-nowrap">
                                 Nomor Surat
                             </TableHead>
-                            <TableHead>Perihal</TableHead>
-                            <TableHead className="text-right">
+                            <TableHead className="w-full">Perihal</TableHead>
+                            <TableHead className="text-nowrap">
                                 Tanggal
                             </TableHead>
-                            <TableHead className="text-center">Aksi</TableHead>
+                            <TableHead className="text-nowrap">
+                                File PDF
+                            </TableHead>
+                            <TableHead className=" text-right">Aksi</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -85,49 +99,119 @@ export default function Index({ surats }) {
                                     </TableCell>
                                     <TableCell>{surat.nomor_surat}</TableCell>
                                     <TableCell>{surat.nama_surat}</TableCell>
-                                    <TableCell className="text-right">
+                                    <TableCell className="whitespace-nowrap flex items-center gap-2">
+                                        <CalendarArrowUp
+                                            size={15}
+                                            className="text-muted-foreground"
+                                        />
                                         {new Date(
                                             surat.tanggal_surat
-                                        ).toLocaleDateString("id-ID")}
+                                        ).toLocaleDateString("id-ID", {
+                                            day: "numeric",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}
                                     </TableCell>
-                                    <TableCell className="text-right">
-                                        <a
-                                            href={route(
-                                                "surat.verify",
-                                                surat.slug
-                                            )}
-                                            target="_blank"
-                                            className="font-medium text-blue-600 hover:underline"
-                                        >
-                                            Verify/QR
-                                        </a>
-                                        <span className="mx-2">|</span>
-                                        <Link
-                                            href={route("surat.edit", surat.id)}
-                                            className="font-medium text-blue-600 hover:underline"
-                                        >
-                                            Edit
-                                        </Link>
-                                        <span className="mx-2">|</span>
-                                        <a
-                                            href="#"
-                                            onClick={(e) =>
-                                                handleDelete(e, surat.id)
-                                            }
-                                            className="font-medium text-red-600 hover:underline"
-                                        >
-                                            Delete
-                                        </a>
+                                    <TableCell className="whitespace-nowrap">
+                                        {surat.file_path ? (
+                                            <span className="flex items-center gap-2">
+                                                <CircleCheck
+                                                    size={15}
+                                                    className="text-muted-foreground"
+                                                />
+                                                Sudah Upload
+                                            </span>
+                                        ) : (
+                                            <span className="text-red-600 flex items-center gap-2">
+                                                <CircleAlert
+                                                    size={15}
+                                                    className=""
+                                                />
+                                                Belum Upload
+                                            </span>
+                                        )}
+                                    </TableCell>
+                                    <TableCell className="text-right py-0">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button
+                                                    variant="ghost"
+                                                    className="h-8 w-8 p-0 m-0"
+                                                >
+                                                    <MoreHorizontal className="h-4 w-4" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent
+                                                className="w-36"
+                                                align="end"
+                                            >
+                                                {surat.file_path && (
+                                                    <DropdownMenuItem
+                                                        className="cursor-pointer"
+                                                        asChild
+                                                    >
+                                                        <a
+                                                            // Assuming files are served from the /storage directory
+                                                            href={`/storage/${surat.file_path}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            Buka file PDF
+                                                        </a>
+                                                    </DropdownMenuItem>
+                                                )}
+                                                <DropdownMenuItem
+                                                    className="cursor-pointer"
+                                                    asChild
+                                                >
+                                                    <a
+                                                        href={route(
+                                                            "surat.verify",
+                                                            surat.slug
+                                                        )}
+                                                        target="_blank"
+                                                    >
+                                                        Link Verifikasi
+                                                    </a>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    className="cursor-pointer"
+                                                    asChild
+                                                >
+                                                    <Link
+                                                        href={route(
+                                                            "surat.edit",
+                                                            surat.id
+                                                        )}
+                                                    >
+                                                        Edit Nomor Surat
+                                                    </Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem
+                                                    className="text-red-600 cursor-pointer focus:text-red-600"
+                                                    onClick={(e) =>
+                                                        handleDelete(
+                                                            e,
+                                                            surat.id
+                                                        )
+                                                    }
+                                                >
+                                                    Hapus
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
                             ))
                         ) : (
                             <TableRow>
+                                {/* Updated colSpan to account for the new column */}
                                 <TableCell
-                                    colSpan="5"
+                                    colSpan="6"
                                     className="h-24 text-center"
                                 >
-                                    No results.
+                                    Tidak ada data ditemukan.
                                 </TableCell>
                             </TableRow>
                         )}
