@@ -24,7 +24,11 @@ import {
 } from "@/components/ui/sidebar";
 import { Link, usePage } from "@inertiajs/react";
 
-export default function AppLayout({ header, children }) {
+export default function AppLayout({
+    bc1 = "Dashboard",
+    bc2 = "Surat",
+    children,
+}) {
     const { auth, all_tahun_ajaran, active_tahun_ajaran } = usePage().props;
 
     const handleTahunAjaranChange = (newTahunAjaranId) => {
@@ -45,15 +49,11 @@ export default function AppLayout({ header, children }) {
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="#">
-                                        Building Your Application
-                                    </BreadcrumbLink>
+                                    <BreadcrumbItem>{bc1}</BreadcrumbItem>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator className="hidden md:block" />
                                 <BreadcrumbItem>
-                                    <BreadcrumbPage>
-                                        Data Fetching
-                                    </BreadcrumbPage>
+                                    <BreadcrumbPage>{bc2}</BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
@@ -84,7 +84,7 @@ export default function AppLayout({ header, children }) {
                         )}
                     </div>
                 </header>
-                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                <div className="flex flex-1 flex-col gap-4 p-5 pt-0">
                     <main>
                         <article>{children}</article>
                     </main>

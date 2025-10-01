@@ -4,6 +4,7 @@ import {
     CalendarArrowUp,
     CircleCheck,
     CircleAlert,
+    Search,
 } from "lucide-react";
 import AppLayout from "@/Layouts/AppLayout";
 import { Link, useForm } from "@inertiajs/react";
@@ -55,20 +56,26 @@ export default function Index({ surats }) {
     }
 
     return (
-        <AppLayout>
-            <div>
-                <h1>Surat Masuk</h1>
+        <AppLayout bc1="Surat Keluar" bc2="Daftar Surat Keluar">
+            <div className="py-7 border-b -mx-5 px-5">
+                <h1 className="text-2xl font-semibold">Surat Keluar</h1>
+                <p className="text-muted-foreground">
+                    Buat, kelola, atau hapus daftar surat keluar.
+                </p>
             </div>
-            <div className="flex my-4 justify-between items-center">
-                <Input
-                    type="text"
-                    placeholder="Cari nomor atau perihal surat..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="max-w-sm"
-                />
+            <div className="flex mb-4 mt-5 justify-between items-center">
+                <div className="relative w-72">
+                    <Search className="absolute left-2 top-1/2 h-3.5 w-3.h-3.5 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                        type="text"
+                        placeholder="Cari nomor dan perihal surat..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-9"
+                    />
+                </div>
                 <Link href={route("surat.create")}>
-                    <Button>Tambah Surat</Button>
+                    <Button className>Tambah Surat</Button>
                 </Link>
             </div>
 
