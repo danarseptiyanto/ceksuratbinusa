@@ -4,8 +4,15 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Surat;
+use BaconQrCode\Writer;
 use Illuminate\Http\Request;
+use Intervention\Image\Image;
+use BaconQrCode\Renderer\ImageRenderer;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 
 class SuratController extends Controller
 {
@@ -28,6 +35,40 @@ class SuratController extends Controller
         return Inertia::render('Surat/Index', [
             'surats' => $surats
         ]);
+    }
+
+    public function downloadQr($slug)
+    {
+        // Build your URL
+        $url = url('/' . $slug);
+
+        // Generate QR Code as PNG binary
+        $qr = QrCode::format('png')->size(200)->generate($url);
+
+        // Create an Intervention Image from the QR binary
+        $qrImage = Image::read($qr);
+
+        // Create a blank white canvas (width 400px, height 300px)
+        $canvas = Image::canvas(400, 300, '#ffffff');
+
+        // Add text
+        $canvas->text('Here\'s the QR code for the URL:', 200, 40, function ($font) {
+            $font->size(20);
+            $font->align('center');
+            $font->valign('middle');
+            $font->color('#000000');
+        });
+
+        // Insert the QR code image into the canvas
+        $canvas->insert($qrImage, 'center', 0, 40);
+
+        // Encode final image as PNG
+        $finalImage = $canvas->encode('png');
+
+        // Return as downloadable file
+        return Response::make($finalImage)
+            ->header('Content-Type', 'image/png')
+            ->header('Content-Disposition', 'attachment; filename="qr-' . $slug . '.png"');
     }
 
     public function create(Request $request)
@@ -53,7 +94,7 @@ class SuratController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nomor_surat' => 'required|string|max:255',
+            'nomor_surat' => 'required|string|max:255|unique:surats,nomor_surat',
             'nama_surat' => 'required|string|max:255',
             'tanggal_surat' => 'required|date',
             'pdf_file' => 'nullable|file|mimes:pdf|max:2048', // 2MB Max

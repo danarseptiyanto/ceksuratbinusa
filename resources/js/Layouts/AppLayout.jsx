@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar";
+import { CalendarClock } from "lucide-react";
 import {
     Select,
     SelectContent,
@@ -49,7 +50,7 @@ export default function AppLayout({
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbItem>{bc1}</BreadcrumbItem>
+                                    {bc1}
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator className="hidden md:block" />
                                 <BreadcrumbItem>
@@ -65,6 +66,10 @@ export default function AppLayout({
                                 onValueChange={handleTahunAjaranChange}
                             >
                                 <SelectTrigger className="w-[150px]">
+                                    <CalendarClock
+                                        size={15}
+                                        className="-mr-1 text-muted-foreground"
+                                    />
                                     <SelectValue placeholder="Select a fruit" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -75,7 +80,7 @@ export default function AppLayout({
                                                 key={ta.id}
                                                 value={ta.id}
                                             >
-                                                TA {ta.tahun}
+                                                {ta.tahun}
                                             </SelectItem>
                                         ))}
                                     </SelectGroup>

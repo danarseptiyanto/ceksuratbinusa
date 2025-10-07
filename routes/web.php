@@ -26,6 +26,9 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/surat/qr/{slug}', [SuratController::class, 'downloadQr'])->name('surat.qr');
+
+
 Route::middleware('auth')->group(function () {
     Route::resource('surat', SuratController::class);
     Route::delete('/surat/{surat}/delete-file', [SuratController::class, 'deleteFile'])->name('surat.deleteFile');

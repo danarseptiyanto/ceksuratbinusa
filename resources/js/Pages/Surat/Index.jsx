@@ -1,11 +1,34 @@
 import { useState, useMemo } from "react";
+import { format } from "date-fns";
+import QRDownload from "./QRdownload";
 import {
+    Calendar as CalendarIcon,
+    Loader2,
     MoreHorizontal,
     CalendarArrowUp,
     CircleCheck,
     CircleAlert,
     Search,
+    CirclePlus,
 } from "lucide-react";
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import AppLayout from "@/Layouts/AppLayout";
 import { Link, useForm } from "@inertiajs/react";
 import {
@@ -25,16 +48,50 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
 export default function Index({ surats }) {
     const { delete: destroy } = useForm();
     const [searchTerm, setSearchTerm] = useState("");
+    const [open, setOpen] = useState(false);
 
-    // Memoize the filtered data to avoid re-calculation on every render
+    const today = new Date();
+    const year = today.getFullYear();
+    const romanMonths = [
+        "I",
+        "II",
+        "III",
+        "IV",
+        "V",
+        "VI",
+        "VII",
+        "VIII",
+        "IX",
+        "X",
+        "XI",
+        "XII",
+    ];
+    const month = romanMonths[today.getMonth()];
+    const generatedNomorSurat = `/ST/SMK.BN/${month}/${year}`;
+
+    const { data, setData, post, reset, errors, processing } = useForm({
+        nomor_surat: generatedNomorSurat,
+        nama_surat: "",
+        tanggal_surat: today.toISOString().slice(0, 10),
+        pdf_file: null,
+    });
+
+    function submit(e) {
+        e.preventDefault();
+        post(route("surat.store"), {
+            onSuccess: () => {
+                reset();
+                setOpen(false); // ✅ close only when successful
+            },
+        });
+    }
+
     const filteredSurats = useMemo(() => {
-        if (!searchTerm) {
-            return surats;
-        }
-
+        if (!searchTerm) return surats;
         return surats.filter(
             (surat) =>
                 surat.nomor_surat
@@ -44,7 +101,7 @@ export default function Index({ surats }) {
                     .toLowerCase()
                     .includes(searchTerm.toLowerCase())
         );
-    }, [surats, searchTerm]); // Dependency array: only re-run when surats or searchTerm changes
+    }, [surats, searchTerm]);
 
     function handleDelete(e, suratId) {
         e.preventDefault();
@@ -63,35 +120,40 @@ export default function Index({ surats }) {
                     Buat, kelola, atau hapus daftar surat keluar.
                 </p>
             </div>
+
             <div className="flex mb-4 mt-5 justify-between items-center">
                 <div className="relative w-72">
-                    <Search className="absolute left-2 top-1/2 h-3.5 w-3.h-3.5 -translate-y-1/2 text-muted-foreground" />
+                    <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
                     <Input
                         type="text"
                         placeholder="Cari nomor dan perihal surat..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-9"
+                        className="pl-8"
                     />
                 </div>
-                <Link href={route("surat.create")}>
-                    <Button className>Tambah Surat</Button>
-                </Link>
+                <Button variant="default" onClick={() => setOpen(true)}>
+                    <CirclePlus /> Tambah
+                </Button>
             </div>
 
             <div className="rounded-lg border overflow-hidden">
                 <Table>
                     <TableHeader className="bg-muted">
                         <TableRow>
-                            <TableHead className="w-[10px]">No</TableHead>
-                            <TableHead className="w-[210px] text-nowrap">
+                            <TableHead className="border-r w-[10px]">
+                                No
+                            </TableHead>
+                            <TableHead className="border-r w-[210px] text-nowrap">
                                 Nomor Surat
                             </TableHead>
-                            <TableHead className="w-full">Perihal</TableHead>
-                            <TableHead className="text-nowrap">
+                            <TableHead className="border-r w-full">
+                                Perihal
+                            </TableHead>
+                            <TableHead className="border-r text-nowrap">
                                 Tanggal
                             </TableHead>
-                            <TableHead className="text-nowrap">
+                            <TableHead className="border-r text-nowrap">
                                 File PDF
                             </TableHead>
                             <TableHead className=" text-right">Aksi</TableHead>
@@ -101,12 +163,20 @@ export default function Index({ surats }) {
                         {filteredSurats.length > 0 ? (
                             filteredSurats.map((surat, index) => (
                                 <TableRow key={surat.id}>
-                                    <TableCell scope="row">
+                                    <TableCell
+                                        className="border-r text-center"
+                                        scope="row"
+                                    >
                                         {index + 1}
+                                        <QRDownload slug={surat.slug} />
                                     </TableCell>
-                                    <TableCell>{surat.nomor_surat}</TableCell>
-                                    <TableCell>{surat.nama_surat}</TableCell>
-                                    <TableCell className="whitespace-nowrap flex items-center gap-2">
+                                    <TableCell className="border-r">
+                                        {surat.nomor_surat}
+                                    </TableCell>
+                                    <TableCell className="border-r">
+                                        {surat.nama_surat}
+                                    </TableCell>
+                                    <TableCell className="whitespace-nowrap flex items-center gap-2 border-r">
                                         <CalendarArrowUp
                                             size={15}
                                             className="text-muted-foreground"
@@ -119,7 +189,7 @@ export default function Index({ surats }) {
                                             year: "numeric",
                                         })}
                                     </TableCell>
-                                    <TableCell className="whitespace-nowrap">
+                                    <TableCell className="whitespace-nowrap border-r">
                                         {surat.file_path ? (
                                             <span className="flex items-center gap-2">
                                                 <CircleCheck
@@ -225,6 +295,138 @@ export default function Index({ surats }) {
                     </TableBody>
                 </Table>
             </div>
+
+            {/* Dialog Form */}
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogContent className="sm:max-w-[525px]">
+                    <form onSubmit={submit} className="space-y-4">
+                        <DialogHeader>
+                            <DialogTitle>Tambah Surat Baru</DialogTitle>
+                            <DialogDescription>
+                                Isi detail surat kemudian klik Simpan untuk
+                                menambahkan.
+                            </DialogDescription>
+                        </DialogHeader>
+
+                        {/* Nomor Surat */}
+                        <div className="space-y-2">
+                            <Label htmlFor="nomor_surat">Nomor Surat</Label>
+                            <Input
+                                id="nomor_surat"
+                                type="text"
+                                value={data.nomor_surat}
+                                onChange={(e) =>
+                                    setData("nomor_surat", e.target.value)
+                                }
+                                autoComplete="off"
+                            />
+                            {errors.nomor_surat && (
+                                <p className="text-sm text-destructive">
+                                    {errors.nomor_surat}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Nama Surat */}
+                        <div className="space-y-2">
+                            <Label htmlFor="nama_surat">
+                                Nama / Perihal Surat
+                            </Label>
+                            <Input
+                                id="nama_surat"
+                                type="text"
+                                value={data.nama_surat}
+                                onChange={(e) =>
+                                    setData("nama_surat", e.target.value)
+                                }
+                                autoComplete="off"
+                            />
+                            {errors.nama_surat && (
+                                <p className="text-sm text-destructive">
+                                    {errors.nama_surat}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Tanggal Surat */}
+                        <div className="space-y-2">
+                            <Label htmlFor="tanggal_surat">Tanggal Surat</Label>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        className={cn(
+                                            "w-full justify-start text-left font-normal",
+                                            !data.tanggal_surat &&
+                                                "text-muted-foreground"
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {data.tanggal_surat ? (
+                                            format(
+                                                new Date(data.tanggal_surat),
+                                                "PPP"
+                                            )
+                                        ) : (
+                                            <span>Pilih tanggal</span>
+                                        )}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                    <Calendar
+                                        mode="single"
+                                        selected={new Date(data.tanggal_surat)}
+                                        onSelect={(date) =>
+                                            setData(
+                                                "tanggal_surat",
+                                                format(date, "yyyy-MM-dd")
+                                            )
+                                        }
+                                        initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                            {errors.tanggal_surat && (
+                                <p className="text-sm text-destructive">
+                                    {errors.tanggal_surat}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Upload PDF */}
+                        <div className="space-y-2">
+                            <Label htmlFor="pdf_file">
+                                Upload PDF (Optional)
+                            </Label>
+                            <Input
+                                id="pdf_file"
+                                type="file"
+                                accept=".pdf"
+                                onChange={(e) =>
+                                    setData("pdf_file", e.target.files[0])
+                                }
+                            />
+                            {errors.pdf_file && (
+                                <p className="text-sm text-destructive">
+                                    {errors.pdf_file}
+                                </p>
+                            )}
+                        </div>
+
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button variant="outline">Batal</Button>
+                            </DialogClose>
+                            <Button type="submit" disabled={processing}>
+                                {processing && (
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                )}
+                                Simpan
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
         </AppLayout>
     );
 }
