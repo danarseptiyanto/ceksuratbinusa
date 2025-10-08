@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\TahunAjaranController;
 use App\Http\Controllers\VerificationController;
 
@@ -41,6 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('surat-masuk', SuratMasukController::class);
+    Route::delete('/surat-masuk/{suratMasuk}/delete-file', [SuratMasukController::class, 'deleteFile'])->name('surat-masuk.deleteFile');
 });
 
 Route::get('/verify/{slug}', [VerificationController::class, 'show'])->name('surat.verify');
