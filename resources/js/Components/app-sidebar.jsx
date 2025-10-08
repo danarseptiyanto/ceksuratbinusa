@@ -7,6 +7,7 @@ import {
     Command,
     FileInput,
     FileOutput,
+    FileQuestionMark,
     FileType,
     FileType2,
     Frame,
@@ -46,6 +47,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { Button } from "./ui/button";
 
 const data = {
     user: {
@@ -53,93 +55,6 @@ const data = {
         email: "m@example.com",
         avatar: "/avatars/shadcn.jpg",
     },
-    navMain: [
-        {
-            title: "Playground",
-            url: "#",
-            icon: SquareTerminal,
-            isActive: true,
-            items: [
-                {
-                    title: "History",
-                    url: "#",
-                },
-                {
-                    title: "Starred",
-                    url: "#",
-                },
-                {
-                    title: "Settings",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Models",
-            url: "#",
-            icon: Bot,
-            items: [
-                {
-                    title: "Genesis",
-                    url: "#",
-                },
-                {
-                    title: "Explorer",
-                    url: "#",
-                },
-                {
-                    title: "Quantum",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Documentation",
-            url: "#",
-            icon: BookOpen,
-            items: [
-                {
-                    title: "Introduction",
-                    url: "#",
-                },
-                {
-                    title: "Get Started",
-                    url: "#",
-                },
-                {
-                    title: "Tutorials",
-                    url: "#",
-                },
-                {
-                    title: "Changelog",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Settings",
-            url: "#",
-            icon: Settings2,
-            items: [
-                {
-                    title: "General",
-                    url: "#",
-                },
-                {
-                    title: "Team",
-                    url: "#",
-                },
-                {
-                    title: "Billing",
-                    url: "#",
-                },
-                {
-                    title: "Limits",
-                    url: "#",
-                },
-            ],
-        },
-    ],
     navSecondary: [
         {
             title: "Support",
@@ -150,23 +65,6 @@ const data = {
             title: "Feedback",
             url: "#",
             icon: Send,
-        },
-    ],
-    projects: [
-        {
-            name: "Design Engineering",
-            url: "#",
-            icon: Frame,
-        },
-        {
-            name: "Sales & Marketing",
-            url: "#",
-            icon: PieChart,
-        },
-        {
-            name: "Travel",
-            url: "#",
-            icon: Map,
         },
     ],
 };
@@ -221,7 +119,7 @@ export function AppSidebar({ ...props }) {
                     </li>
                 </ul>
                 <SidebarGroup className="-mt-2">
-                    <SidebarGroupLabel>Projects</SidebarGroupLabel>
+                    <SidebarGroupLabel>Surat</SidebarGroupLabel>
                     <SidebarMenu>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
@@ -268,26 +166,45 @@ export function AppSidebar({ ...props }) {
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild>
+                                <Link href="#">
+                                    <FileQuestionMark />
+                                    <span>Dokumentasi</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
                     </SidebarMenu>
                 </SidebarGroup>
-                {/* <NavProjects projects={data.projects} /> */}
-                {/* <NavProjects projects={data.projects} /> */}
                 {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
-                <Card className="m-4 p-4 mt-auto mx-3 shadow-none mb-0">
-                    <CardHeader>
-                        <CardTitle>Card Title</CardTitle>
-                        <CardDescription>Card Description</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <p>Card Content</p>
-                    </CardContent>
-                    <CardFooter>
-                        <p>Card Footer</p>
-                    </CardFooter>
+                <Card className="py-3 mt-auto mx-3 shadow-none mb-0 hidden md:block">
+                    <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1 px-3">
+                        <div className="font-semibold text-sm leading-tight">
+                            Welcome!
+                        </div>
+                        <div className="text-muted-foreground text-[13px]">
+                            Aplikasi masih dalam pengembangan. Lihat dokumentasi
+                            untuk informasi lebih lanjut.
+                            <p>
+                                <Link
+                                    href="/docs"
+                                    className="text-primary hover:underline"
+                                >
+                                    <Button
+                                        variant="secondary"
+                                        size="sm"
+                                        className="w-full mt-2 text-[13px] h-7"
+                                    >
+                                        Dokumentasi
+                                    </Button>
+                                </Link>
+                            </p>
+                        </div>
+                    </div>
                 </Card>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={data.user} />
+                <NavUser />
             </SidebarFooter>
         </Sidebar>
     );

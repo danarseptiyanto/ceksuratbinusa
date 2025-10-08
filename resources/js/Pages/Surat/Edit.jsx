@@ -45,8 +45,10 @@ export default function Edit({ surat }) {
         <AppLayout bc1="Surat Keluar" bc2="Edit Surat Keluar">
             <Head title="Edit Surat" />
 
-            <div className="py-7 border-b -mx-5 px-5">
-                <h1 className="text-2xl font-semibold">Edit Surat Keluar</h1>
+            <div className="py-5 border-b -mx-5 px-5">
+                <h1 className="text-2xl font-semibold leading-normal">
+                    Edit Surat Keluar
+                </h1>
                 <p className="text-muted-foreground">
                     Perbarui detail surat keluar dan kelola file lampiran.
                 </p>

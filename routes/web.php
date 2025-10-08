@@ -17,6 +17,12 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/hehe', function () {
+    return view(
+        'Welcomex'
+    );
+});
+
 
 Route::get('/tahun-ajaran/switch/{id}', [TahunAjaranController::class, 'switch'])
     ->middleware(['auth'])

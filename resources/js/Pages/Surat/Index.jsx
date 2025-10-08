@@ -114,8 +114,10 @@ export default function Index({ surats }) {
 
     return (
         <AppLayout bc1="Surat Keluar" bc2="Daftar Surat Keluar">
-            <div className="py-7 border-b -mx-5 px-5">
-                <h1 className="text-2xl font-semibold">Surat Keluar</h1>
+            <div className="py-5 border-b -mx-5 px-5">
+                <h1 className="text-2xl font-semibold leading-normal">
+                    Surat Keluar
+                </h1>
                 <p className="text-muted-foreground">
                     Buat, kelola, atau hapus daftar surat keluar.
                 </p>
@@ -168,7 +170,6 @@ export default function Index({ surats }) {
                                         scope="row"
                                     >
                                         {index + 1}
-                                        <QRDownload slug={surat.slug} />
                                     </TableCell>
                                     <TableCell className="border-r">
                                         {surat.nomor_surat}
@@ -237,6 +238,7 @@ export default function Index({ surats }) {
                                                         </a>
                                                     </DropdownMenuItem>
                                                 )}
+                                                <QRDownload slug={surat.slug} />
                                                 <DropdownMenuItem
                                                     className="cursor-pointer"
                                                     asChild

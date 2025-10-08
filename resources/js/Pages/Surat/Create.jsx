@@ -37,8 +37,10 @@ export default function Create({ suggestedNumber }) {
 
     return (
         <AppLayout bc1="Surat Keluar" bc2="Buat Surat Keluar">
-            <div className="py-7 border-b -mx-5 px-5">
-                <h1 className="text-2xl font-semibold">Surat Keluar</h1>
+            <div className="py-5 border-b -mx-5 px-5">
+                <h1 className="text-2xl font-semibold leading-normal">
+                    Surat Keluar
+                </h1>
                 <p className="text-muted-foreground">
                     Buat, kelola, atau hapus daftar surat keluar.
                 </p>
