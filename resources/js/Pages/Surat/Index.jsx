@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import QRDownload from "./QRdownload";
 import {
@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import AppLayout from "@/Layouts/AppLayout";
-import { Link, useForm } from "@inertiajs/react";
+import { Link, useForm, usePage, router } from "@inertiajs/react";
 import {
     Table,
     TableBody,
@@ -53,6 +53,21 @@ export default function Index({ surats }) {
     const { delete: destroy } = useForm();
     const [searchTerm, setSearchTerm] = useState("");
     const [open, setOpen] = useState(false);
+    const { url } = usePage();
+    const hasOpened = useRef(false); // 🧠 guard
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const action = params.get("action");
+
+        if (action === "create") {
+            setOpen(true);
+
+            // ✅ Use browser history API instead of Inertia router
+            // This avoids triggering Inertia re-renders
+            window.history.replaceState({}, "", route("surat.index"));
+        }
+    }, []); // only run once when mounted
 
     const today = new Date();
     const year = today.getFullYear();
