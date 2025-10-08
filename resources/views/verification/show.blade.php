@@ -1,4 +1,3 @@
-{{-- resources/views/verification/show.blade.php --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +15,7 @@
         <article>
             <hgroup>
                 <h1>✅ Dokumen Terverifikasi</h1>
+                <img src="/img/logosekolah.png">
                 <h2>Surat ini adalah dokumen yang sah dan terverifikasi oleh sistem kami.</h2>
             </hgroup>
             
@@ -24,7 +24,7 @@
             <p><strong>Tanggal Surat:</strong> {{ \Carbon\Carbon::parse($surat->tanggal_surat)->format('d F Y') }}</p>
 
             @if ($surat->file_path)
-                <a href="{{ Storage::url($surat->file_path) }}" target="_blank" role="button">Lihat File PDF</a>
+                <a href="{{ Illuminate\Support\Facades\Storage::url($surat->file_path) }}" target="_blank" role="button">Lihat File PDF</a>
             @else
                 <p><em>Tidak ada file PDF yang dilampirkan.</em></p>
             @endif

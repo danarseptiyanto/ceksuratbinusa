@@ -1,190 +1,240 @@
-// resources/js/Pages/Surat/Edit.jsx
-import AppLayout from "@/Layouts/AppLayout";
+import AppLayout from "../../Layouts/AppLayout";
 import { Head, useForm, Link, router } from "@inertiajs/react";
-
+import { format } from "date-fns";
+import { Calendar as CalendarIcon, Loader2, Trash2 } from "lucide-react";
+import { Button } from "../../Components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+} from "../../Components/ui/card";
+import { Input } from "../../Components/ui/input";
+import { Label } from "../../Components/ui/label";
+import { Calendar } from "../../Components/ui/calendar";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "../../Components/ui/popover";
+import { cn } from "../../lib/utils";
 export default function Edit({ surat }) {
-    // Main form for updating text fields and uploading a new file
     const { data, setData, post, errors, processing } = useForm({
-        _method: "PUT", // Important: Tells Laravel to use the UPDATE route method
+        _method: "PUT",
         nomor_surat: surat.nomor_surat || "",
         nama_surat: surat.nama_surat || "",
         tanggal_surat: surat.tanggal_surat || "",
-        pdf_file: null, // Field for a new file upload
+        pdf_file: null,
     });
-
-    // Handler for the main form submission
     function submit(e) {
         e.preventDefault();
-        // We use `post` because HTML forms don't natively support PUT.
-        // Inertia sends a POST request with a hidden `_method` field,
-        // which Laravel correctly interprets as a PUT/PATCH request.
         post(route("surat.update", surat.id), {
+            forceFormData: true,
             preserveScroll: true,
         });
     }
-
-    // Handler to delete only the PDF file
     function handleDeleteFile(e) {
         e.preventDefault();
         if (confirm("Are you sure you want to delete the attached PDF file?")) {
-            // We need a dedicated route for this action.
             router.delete(route("surat.deleteFile", surat.id), {
                 preserveScroll: true,
             });
         }
     }
-
     return (
-        <AppLayout header={`Edit Surat: ${surat.nomor_surat}`}>
+        <AppLayout bc1="Surat Keluar" bc2="Edit Surat Keluar">
             <Head title="Edit Surat" />
 
-            <form onSubmit={submit}>
-                {/* Nomor Surat Field */}
-                <label htmlFor="nomor_surat">
-                    Nomor Surat
-                    <input
-                        id="nomor_surat"
-                        type="text"
-                        value={data.nomor_surat}
-                        onChange={(e) => setData("nomor_surat", e.target.value)}
-                        aria-invalid={errors.nomor_surat ? "true" : "false"}
-                    />
-                    {errors.nomor_surat && (
-                        <small
-                            style={{
-                                color: "var(--pico-form-element-invalid-active-border-color)",
-                            }}
-                        >
-                            {errors.nomor_surat}
-                        </small>
-                    )}
-                </label>
+            <div className="py-5 border-b -mx-5 px-5">
+                <h1 className="text-2xl font-semibold leading-normal">
+                    Edit Surat Keluar
+                </h1>
+                <p className="text-muted-foreground">
+                    Perbarui detail surat keluar dan kelola file lampiran.
+                </p>
+            </div>
 
-                {/* Nama Surat Field */}
-                <label htmlFor="nama_surat">
-                    Nama/Perihal Surat
-                    <input
-                        id="nama_surat"
-                        type="text"
-                        value={data.nama_surat}
-                        onChange={(e) => setData("nama_surat", e.target.value)}
-                        aria-invalid={errors.nama_surat ? "true" : "false"}
-                    />
-                    {errors.nama_surat && (
-                        <small
-                            style={{
-                                color: "var(--pico-form-element-invalid-active-border-color)",
-                            }}
-                        >
-                            {errors.nama_surat}
-                        </small>
-                    )}
-                </label>
+            <div className="py-4">
+                <div className="mx-auto">
+                    <form onSubmit={submit}>
+                        <Card>
+                            <CardHeader className="border-b">
+                                <h1 className="font-semibold text-lg leading-tight">
+                                    Formulir Edit Surat
+                                </h1>
+                            </CardHeader>
+                            <CardContent className="space-y-5 pt-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="nomor_surat">
+                                        Nomor Surat
+                                    </Label>
+                                    <Input
+                                        id="nomor_surat"
+                                        type="text"
+                                        value={data.nomor_surat}
+                                        onChange={(e) =>
+                                            setData(
+                                                "nomor_surat",
+                                                e.target.value
+                                            )
+                                        }
+                                        autoComplete="off"
+                                    />
+                                    {errors.nomor_surat && (
+                                        <p className="text-sm text-destructive">
+                                            {errors.nomor_surat}
+                                        </p>
+                                    )}
+                                </div>
 
-                {/* Tanggal Surat Field */}
-                <label htmlFor="tanggal_surat">
-                    Tanggal Surat
-                    <input
-                        id="tanggal_surat"
-                        type="date"
-                        value={data.tanggal_surat}
-                        onChange={(e) =>
-                            setData("tanggal_surat", e.target.value)
-                        }
-                        aria-invalid={errors.tanggal_surat ? "true" : "false"}
-                    />
-                    {errors.tanggal_surat && (
-                        <small
-                            style={{
-                                color: "var(--pico-form-element-invalid-active-border-color)",
-                            }}
-                        >
-                            {errors.tanggal_surat}
-                        </small>
-                    )}
-                </label>
+                                {/* Nama/Perihal Surat */}
+                                <div className="space-y-2">
+                                    <Label htmlFor="nama_surat">
+                                        Nama / Perihal Surat
+                                    </Label>
+                                    <Input
+                                        id="nama_surat"
+                                        type="text"
+                                        value={data.nama_surat}
+                                        onChange={(e) =>
+                                            setData(
+                                                "nama_surat",
+                                                e.target.value
+                                            )
+                                        }
+                                        autoComplete="off"
+                                    />
+                                    {errors.nama_surat && (
+                                        <p className="text-sm text-destructive">
+                                            {errors.nama_surat}
+                                        </p>
+                                    )}
+                                </div>
 
-                <hr />
+                                {/* Tanggal Surat - Date Picker */}
+                                <div className="space-y-2">
+                                    <Label htmlFor="tanggal_surat">
+                                        Tanggal Surat
+                                    </Label>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "w-full justify-start text-left font-normal",
+                                                    !data.tanggal_surat &&
+                                                        "text-muted-foreground"
+                                                )}
+                                            >
+                                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                                {data.tanggal_surat ? (
+                                                    format(
+                                                        new Date(
+                                                            data.tanggal_surat
+                                                        ),
+                                                        "PPP"
+                                                    )
+                                                ) : (
+                                                    <span>Pilih tanggal</span>
+                                                )}
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0">
+                                            <Calendar
+                                                mode="single"
+                                                selected={
+                                                    new Date(data.tanggal_surat)
+                                                }
+                                                onSelect={(date) =>
+                                                    setData(
+                                                        "tanggal_surat",
+                                                        format(
+                                                            date,
+                                                            "yyyy-MM-dd"
+                                                        )
+                                                    )
+                                                }
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                    {errors.tanggal_surat && (
+                                        <p className="text-sm text-destructive">
+                                            {errors.tanggal_surat}
+                                        </p>
+                                    )}
+                                </div>
 
-                {/* File Management Section */}
-                <h6>Manajemen File PDF</h6>
-                {surat.file_path ? (
-                    <div>
-                        <p>File saat ini:</p>
-                        <div
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "1rem",
-                                marginBottom: "1rem",
-                            }}
-                        >
-                            <a
-                                href={`/storage/${surat.file_path}`}
-                                target="_blank"
-                                role="button"
-                                className="outline"
-                            >
-                                📄 Lihat File Saat Ini
-                            </a>
-                            <button
-                                onClick={handleDeleteFile}
-                                className="secondary"
-                            >
-                                🗑️ Hapus File
-                            </button>
-                        </div>
-                    </div>
-                ) : (
-                    <p>
-                        <em>Tidak ada file PDF yang terlampir.</em>
-                    </p>
-                )}
+                                {/* PDF File Management */}
+                                <div className="space-y-2">
+                                    <Label>Manajemen File PDF</Label>
+                                    {surat.file_path ? (
+                                        <div className="flex items-center gap-3 px-6 p-3 bg-muted rounded-md">
+                                            <a
+                                                href={`/storage/${surat.file_path}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex-grow text-sm font-medium text-primary hover:underline"
+                                            >
+                                                Lihat File Saat Ini
+                                            </a>
+                                            <Button
+                                                type="button"
+                                                variant="destructive"
+                                                size="icon"
+                                                onClick={handleDeleteFile}
+                                            >
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <p className="text-sm text-muted-foreground italic">
+                                            Tidak ada file PDF yang terlampir.
+                                        </p>
+                                    )}
+                                </div>
 
-                <label htmlFor="pdf_file">
-                    Upload File Baru (Akan menggantikan file lama jika ada)
-                    <input
-                        id="pdf_file"
-                        type="file"
-                        accept=".pdf"
-                        onChange={(e) => setData("pdf_file", e.target.files[0])}
-                        aria-invalid={errors.pdf_file ? "true" : "false"}
-                    />
-                    {errors.pdf_file && (
-                        <small
-                            style={{
-                                color: "var(--pico-form-element-invalid-active-border-color)",
-                            }}
-                        >
-                            {errors.pdf_file}
-                        </small>
-                    )}
-                </label>
-
-                {/* Action Buttons */}
-                <div
-                    style={{
-                        display: "flex",
-                        gap: "1rem",
-                        marginTop: "1.5rem",
-                    }}
-                >
-                    <button
-                        type="submit"
-                        disabled={processing}
-                        aria-busy={processing}
-                    >
-                        Update Surat
-                    </button>
-                    <Link
-                        href={route("surat.index")}
-                        role="button"
-                        className="secondary"
-                    >
-                        Batal
-                    </Link>
+                                {/* PDF File Upload */}
+                                <div className="space-y-2">
+                                    <Label htmlFor="pdf_file">
+                                        Upload File Baru (Akan menggantikan file
+                                        lama)
+                                    </Label>
+                                    <Input
+                                        id="pdf_file"
+                                        type="file"
+                                        accept=".pdf"
+                                        onChange={(e) =>
+                                            setData(
+                                                "pdf_file",
+                                                e.target.files[0]
+                                            )
+                                        }
+                                    />
+                                    {errors.pdf_file && (
+                                        <p className="text-sm text-destructive">
+                                            {errors.pdf_file}
+                                        </p>
+                                    )}
+                                </div>
+                            </CardContent>
+                            <CardFooter className="border-t pt-5 bg-muted rounded-b-lg flex justify-end gap-2">
+                                <Button asChild variant="outline">
+                                    <Link href={route("surat.index")}>
+                                        Cancel
+                                    </Link>
+                                </Button>
+                                <Button type="submit" disabled={processing}>
+                                    {processing && (
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    )}
+                                    Update
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    </form>
                 </div>
-            </form>
+            </div>
         </AppLayout>
     );
 }

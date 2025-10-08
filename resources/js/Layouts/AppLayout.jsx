@@ -1,73 +1,100 @@
-// resources/js/Layouts/AppLayout.jsx
+import { AppSidebar } from "@/components/app-sidebar";
+import { CalendarClock } from "lucide-react";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
+import {
+    SidebarInset,
+    SidebarProvider,
+    SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { Link, usePage } from "@inertiajs/react";
 
-export default function AppLayout({ header, children }) {
+export default function AppLayout({
+    bc1 = "Dashboard",
+    bc2 = "Surat",
+    children,
+}) {
     const { auth, all_tahun_ajaran, active_tahun_ajaran } = usePage().props;
 
-    const handleTahunAjaranChange = (e) => {
-        const newTahunAjaranId = e.target.value;
-        // This will make a GET request to a route we will create soon
+    const handleTahunAjaranChange = (newTahunAjaranId) => {
         window.location.href = route("tahun-ajaran.switch", newTahunAjaranId);
     };
 
     return (
-        <>
-            <nav className="container-fluid">
-                <ul>
-                    <li>
-                        <Link href={route("dashboard")}>
-                            <strong>🏫 Surat App</strong>
-                        </Link>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <Link href={route("dashboard")}>Dashboard</Link>
-                    </li>
-                    <li>
-                        <Link href={route("surat.index")}>Surat Keluar</Link>
-                    </li>
-                    <li>
-                        <Link href={route("surat-masuk.index")}>
-                            Surat Masuk
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={route("profile.edit")}>Profile</Link>
-                    </li>
-                    <li>
-                        <Link href={route("logout")} method="post" as="button">
-                            Log Out
-                        </Link>
-                    </li>
-                </ul>
-            </nav>
-
-            <main className="container">
-                <header
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                    }}
-                >
-                    <h1>{header}</h1>
-                    {all_tahun_ajaran && (
-                        <select
-                            value={active_tahun_ajaran?.id || ""}
-                            onChange={handleTahunAjaranChange}
-                            style={{ maxWidth: "200px" }}
-                        >
-                            {all_tahun_ajaran.map((ta) => (
-                                <option key={ta.id} value={ta.id}>
-                                    T.A. {ta.tahun}
-                                </option>
-                            ))}
-                        </select>
-                    )}
+        <SidebarProvider>
+            <AppSidebar />
+            <SidebarInset>
+                <header className="flex justify-between h-16 shrink-0 items-center gap-2 border-b">
+                    <div className="flex items-center gap-2 px-4">
+                        <SidebarTrigger className="-ml-1" />
+                        <Separator
+                            orientation="vertical"
+                            className="mr-2 data-[orientation=vertical]:h-4"
+                        />
+                        <Breadcrumb>
+                            <BreadcrumbList>
+                                <BreadcrumbItem className="hidden md:block">
+                                    {bc1}
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator className="hidden md:block" />
+                                <BreadcrumbItem>
+                                    <BreadcrumbPage>{bc2}</BreadcrumbPage>
+                                </BreadcrumbItem>
+                            </BreadcrumbList>
+                        </Breadcrumb>
+                    </div>
+                    <div className="px-4">
+                        {all_tahun_ajaran && (
+                            <Select
+                                value={active_tahun_ajaran?.id || ""}
+                                onValueChange={handleTahunAjaranChange}
+                            >
+                                <SelectTrigger className="w-[150px]">
+                                    <CalendarClock
+                                        size={15}
+                                        className="-mr-1 text-muted-foreground"
+                                    />
+                                    <SelectValue placeholder="Select a fruit" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Tahun Ajaran</SelectLabel>
+                                        {all_tahun_ajaran.map((ta) => (
+                                            <SelectItem
+                                                key={ta.id}
+                                                value={ta.id}
+                                            >
+                                                {ta.tahun}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        )}
+                    </div>
                 </header>
-                <article>{children}</article>
-            </main>
-        </>
+                <div className="flex flex-1 flex-col gap-4 p-5 pt-0">
+                    <main>
+                        <article>{children}</article>
+                    </main>
+                </div>
+            </SidebarInset>
+        </SidebarProvider>
     );
 }

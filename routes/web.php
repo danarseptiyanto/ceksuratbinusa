@@ -18,6 +18,12 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/hehe', function () {
+    return view(
+        'Welcomex'
+    );
+});
+
 
 Route::get('/tahun-ajaran/switch/{id}', [TahunAjaranController::class, 'switch'])
     ->middleware(['auth'])
@@ -26,6 +32,9 @@ Route::get('/tahun-ajaran/switch/{id}', [TahunAjaranController::class, 'switch']
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/surat/qr/{slug}', [SuratController::class, 'downloadQr'])->name('surat.qr');
+
 
 Route::middleware('auth')->group(function () {
     Route::resource('surat', SuratController::class);
