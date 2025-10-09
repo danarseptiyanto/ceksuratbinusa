@@ -10,6 +10,7 @@ import {
     CircleAlert,
     Search,
     CirclePlus,
+    Paperclip,
 } from "lucide-react";
 import {
     Dialog,
@@ -170,10 +171,10 @@ export default function Index({ surats }) {
                             <TableHead className="border-r text-nowrap">
                                 Tanggal
                             </TableHead>
-                            <TableHead className="border-r text-nowrap">
-                                File PDF
+                            <TableHead className="border-r px-0 text-nowrap text-center">
+                                PDF
                             </TableHead>
-                            <TableHead className=" text-right">Aksi</TableHead>
+                            <TableHead className="px-2">Aksi</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -192,39 +193,35 @@ export default function Index({ surats }) {
                                     <TableCell className="border-r">
                                         {surat.nama_surat}
                                     </TableCell>
-                                    <TableCell className="whitespace-nowrap flex items-center gap-2 border-r">
-                                        <CalendarArrowUp
-                                            size={15}
-                                            className="text-muted-foreground"
-                                        />
-                                        {new Date(
-                                            surat.tanggal_surat
-                                        ).toLocaleDateString("id-ID", {
-                                            day: "numeric",
-                                            month: "short",
-                                            year: "numeric",
-                                        })}
+                                    <TableCell className="whitespace-nowrap">
+                                        <span className="flex items-center gap-2">
+                                            <CalendarArrowUp
+                                                size={15}
+                                                className="text-muted-foreground"
+                                            />
+                                            {new Date(
+                                                surat.tanggal_surat
+                                            ).toLocaleDateString("id-ID", {
+                                                day: "numeric",
+                                                month: "short",
+                                                year: "numeric",
+                                            })}
+                                        </span>
                                     </TableCell>
-                                    <TableCell className="whitespace-nowrap border-r">
+                                    <TableCell className="whitespace-nowrap border-x">
                                         {surat.file_path ? (
-                                            <span className="flex items-center gap-2">
-                                                <CircleCheck
-                                                    size={15}
-                                                    className="text-muted-foreground"
-                                                />
-                                                Sudah Upload
-                                            </span>
+                                            <CircleCheck
+                                                size={15}
+                                                className="text-green-500"
+                                            />
                                         ) : (
-                                            <span className="text-red-600 flex items-center gap-2">
-                                                <CircleAlert
-                                                    size={15}
-                                                    className=""
-                                                />
-                                                Belum Upload
-                                            </span>
+                                            <CircleAlert
+                                                size={15}
+                                                className="text-red-500"
+                                            />
                                         )}
                                     </TableCell>
-                                    <TableCell className="text-right py-0">
+                                    <TableCell className="text-center py-0 px-0">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <Button

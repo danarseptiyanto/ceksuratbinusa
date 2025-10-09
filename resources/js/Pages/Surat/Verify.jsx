@@ -1,27 +1,32 @@
 import React from "react";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import { BadgeCheckIcon, FileText, InfoIcon, Paperclip } from "lucide-react";
+    BadgeCheckIcon,
+    DownloadIcon,
+    FileDigit,
+    FileDown,
+    FileText,
+    Hash,
+    InfoIcon,
+    Instagram,
+    Paperclip,
+    SquareArrowOutUpRight,
+} from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { Separator } from "@/Components/ui/separator";
+import { Button } from "@/Components/ui/button";
+import Footer from "@/Components/Footer";
 
 export default function Show({ surat, verificationUrl }) {
     return (
         <>
             <div className="border-b">
-                <div className="max-w-screen-xl justify-between mx-auto flex items-center gap-2 px-14 py-2 border-x">
+                <div className="mx-auto flex max-w-screen-xl items-center justify-between gap-2 border-x px-14 py-2">
                     <a
                         href="#"
                         data-sidebar="menu-button"
                         data-size="lg"
                         data-active="false"
-                        className="flex items-center gap-2 overflow-hidden rounded-md text-left outline-none ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-12 text-sm group-data-[collapsible=icon]:!p-0"
+                        className="flex h-12 items-center gap-2 overflow-hidden rounded-md text-left text-sm outline-none ring-sidebar-ring transition-[width,height,padding] hover:text-sidebar-accent-foreground focus-visible:ring-2 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent group-data-[collapsible=icon]:!p-0"
                     >
                         <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                             <svg
@@ -47,47 +52,47 @@ export default function Show({ surat, verificationUrl }) {
                             <span className="truncate text-xs">Semarang</span>
                         </div>
                     </a>
-                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="lucide lucide-command size-4"
-                            aria-hidden="true"
-                        >
-                            <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
-                        </svg>
-                    </div>
+                    <a
+                        href="http://binusasmg.sch.id"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <Button variant="outline" className="text-xs">
+                            <SquareArrowOutUpRight className="-mx-0.5 !h-3.5 !w-3.5" />
+                            Website Sekolah
+                        </Button>
+                    </a>
                 </div>
             </div>
             <div className="border-b">
-                <div className="max-w-screen-xl mx-auto px-14 py-2 border-x">
-                    <div className="flex flex-col gap-3 my-12 max-w-5xl">
+                <div className="mx-auto flex max-w-screen-xl justify-between border-x px-14 pb-16 pt-12">
+                    <div className="flex max-w-4xl flex-col justify-center gap-3">
                         <h1 className="text-3xl font-semibold text-foreground">
                             {surat.nama_surat}
                         </h1>
                         <p className="text-xl font-light text-muted-foreground">
                             {surat.tanggal_surat}
                         </p>
-                        <div className="inline-flex w-fit shrink-0 items-center justify-center gap-0.5 leading-3 transition-colors dark:border h-6 min-w-5 rounded-md px-2 text-sm/none bg-blue-200 text-blue-900 ">
+                        <div className="inline-flex h-6 w-fit min-w-5 shrink-0 items-center justify-center gap-0.5 rounded-md bg-blue-200 px-2 text-sm/none leading-3 text-blue-900 transition-colors dark:border">
                             <BadgeCheckIcon size={14} />
                             Terverifikasi
                         </div>
                     </div>
+                    <QRCodeSVG
+                        className="hidden rounded-md border border-dashed p-2.5 md:block"
+                        value={verificationUrl}
+                        size={170}
+                        bgColor={"#ffffff"}
+                        fgColor={"#000000"}
+                    />
                 </div>
             </div>
             <div className="border-b">
-                <div className="max-w-screen-xl mx-auto px-14 pb-5 -mt-5 border-x">
-                    <div className="relative z-50 flex h-10 items-center justify-between rounded-lg border border-neutral-200 bg-white px-2 shadow-xs dark:border-white/10 dark:bg-[#1a1a1a]">
+                <div className="mx-auto -mt-5 max-w-screen-xl border-x px-14 pb-14">
+                    <div className="shadow-xs relative z-50 flex h-10 items-center justify-between rounded-lg border border-neutral-200 bg-white px-2 dark:border-white/10 dark:bg-[#1a1a1a]">
                         <div className="flex w-full items-center gap-3">
-                            <div className="inline-flex h-6 w-fit min-w-5 shrink-0 items-center justify-center gap-1 rounded-md bg-primary px-1.5 font-mono text-xs/none leading-3 text-white uppercase transition-colors">
-                                <Paperclip size={12} />
+                            <div className="inline-flex h-6 w-fit min-w-5 shrink-0 items-center justify-center gap-1 rounded-md bg-primary px-1.5 font-mono text-xs/none uppercase leading-3 text-white transition-colors">
+                                <FileDigit size={12} />
                                 Nomor
                             </div>
                             <div className="flex-1 truncate text-sm font-light text-neutral-950 dark:text-white">
@@ -95,19 +100,19 @@ export default function Show({ surat, verificationUrl }) {
                             </div>
                         </div>
                     </div>
-                    <div className="relative z-50 mt-10 p-4 items-center justify-between rounded-xl border border-neutral-200 bg-white shadow-xs ">
-                        <div className="flex w-full items-center gap-3 mb-3.5">
+                    <div className="shadow-xs relative z-50 mt-10 items-center justify-between rounded-xl border border-neutral-200 bg-white p-4">
+                        <div className="mb-3.5 flex w-full items-center gap-3">
                             <div className="flex items-center gap-2.5">
-                                <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-white/5 rounded-md w-6 h-6 flex items-center justify-center p-1">
-                                    <FileText className="w-4 h-4 text-muted-foreground" />
+                                <div className="flex h-6 w-6 items-center justify-center rounded-md border border-neutral-200 bg-white p-1 dark:border-white/5 dark:bg-neutral-800">
+                                    <FileText className="h-4 w-4 text-muted-foreground" />
                                 </div>
                                 <h3 className="text-base font-semibold text-neutral-900">
                                     Lampiran Dokumen
                                 </h3>
                             </div>
                         </div>
-                        <div className="border border-dashed rounded-lg mb-3">
-                            <div className="flex h-11 cursor-pointer items-center gap-3 rounded-lg pr-2.5 pl-4 hover:bg-white/50">
+                        <div className="mb-3 rounded-lg border border-dashed">
+                            <div className="flex h-11 cursor-pointer items-center gap-3 rounded-lg pl-4 pr-2.5 hover:bg-white/50">
                                 {surat.file_url ? (
                                     <>
                                         <InfoIcon
@@ -115,15 +120,26 @@ export default function Show({ surat, verificationUrl }) {
                                             className="text-muted-foreground"
                                         />
                                         <div className="flex-1 font-mono text-xs leading-3 text-neutral-900 dark:text-neutral-400">
-                                            Ditemukan 1 file yang dilampirkan{" "}
+                                            Ditemukan 1 file yang
+                                            dilampirkan{" "}
                                         </div>
                                         <a
                                             href={surat.file_url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="underline font-semibold"
+                                            className="font-semibold underline"
                                         >
-                                            Unduh File
+                                            <Button
+                                                size="sm"
+                                                variant="outline"
+                                                className="-mr-1 h-8 text-xs"
+                                            >
+                                                <FileDown
+                                                    size={11}
+                                                    className="-mx-0.5"
+                                                />
+                                                Download
+                                            </Button>
                                         </a>
                                     </>
                                 ) : (
@@ -144,7 +160,7 @@ export default function Show({ surat, verificationUrl }) {
                                 {/* <div className="scale-[1.08] -translate-y-[6px] origin-top"> */}
                                 <iframe
                                     src={`${surat.file_url}#toolbar=0`}
-                                    className="w-full h-[1200px]"
+                                    className="h-[1200px] w-full"
                                     style={{
                                         border: "none",
                                         margin: 0,
@@ -156,13 +172,14 @@ export default function Show({ surat, verificationUrl }) {
                                 {/* </div> */}
                             </div>
                         ) : (
-                            <div className="overflow-hidden flex justify-center items-center h-[700px] rounded-md border">
+                            <div className="flex h-[700px] items-center justify-center overflow-hidden rounded-md border">
                                 <h1>Tidak Ditemukan</h1>
                             </div>
                         )}
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
         // <>
         //     {/* Main container for centering the content */}
@@ -220,7 +237,7 @@ export default function Show({ surat, verificationUrl }) {
         //                 {/* Embedded PDF Viewer */}
         //                 {surat.file_url ? (
         //                     <div>
-        //                         <h3 className="mb-2 font-semibold text-gray-700 dark:text-gray-300">
+        //                         <h3 className="mb-</svg>2 font-semibold text-gray-700 dark:text-gray-300">
         //                             Lampiran Dokumen:
         //                         </h3>
         //                         <div className="overflow-hidden rounded-md border">
@@ -237,7 +254,7 @@ export default function Show({ surat, verificationUrl }) {
         //                                     title="PDF Viewer"
         //                                 ></iframe>
         //                             </div>
-        //                         </div>
+        // </a>                        </div>
         //                     </div>
         //                 ) : (
         //                     <p className="text-center text-sm text-gray-500 mt-4">

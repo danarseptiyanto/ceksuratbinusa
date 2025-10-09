@@ -19,8 +19,8 @@ Route::get('/', function () {
 });
 
 Route::get('/hehe', function () {
-    return view(
-        'Welcomex'
+    return Inertia(
+        'Home'
     );
 });
 
