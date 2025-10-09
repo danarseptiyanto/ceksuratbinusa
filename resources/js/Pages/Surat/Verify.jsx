@@ -15,10 +15,12 @@ import { QRCodeSVG } from "qrcode.react";
 import { Separator } from "@/Components/ui/separator";
 import { Button } from "@/Components/ui/button";
 import Footer from "@/Components/Footer";
+import FlashMessage from "@/Components/FlashMessage";
 
 export default function Show({ surat, verificationUrl }) {
     return (
         <>
+            <FlashMessage />
             <div className="border-b">
                 <div className="mx-auto flex max-w-screen-xl items-center justify-between gap-2 border-x px-14 py-2">
                     <a

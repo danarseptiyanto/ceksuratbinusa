@@ -115,7 +115,7 @@ export default function Index({ surats }) {
                     .includes(searchTerm.toLowerCase()) ||
                 surat.nama_surat
                     .toLowerCase()
-                    .includes(searchTerm.toLowerCase())
+                    .includes(searchTerm.toLowerCase()),
         );
     }, [surats, searchTerm]);
 
@@ -130,7 +130,7 @@ export default function Index({ surats }) {
 
     return (
         <AppLayout bc1="Surat Keluar" bc2="Daftar Surat Keluar">
-            <div className="py-5 border-b -mx-5 px-5">
+            <div className="-mx-5 border-b px-5 py-5">
                 <h1 className="text-2xl font-semibold leading-normal">
                     Surat Keluar
                 </h1>
@@ -139,7 +139,7 @@ export default function Index({ surats }) {
                 </p>
             </div>
 
-            <div className="flex mb-4 mt-5 justify-between items-center">
+            <div className="mb-4 mt-5 flex items-center justify-between">
                 <div className="relative w-72">
                     <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
                     <Input
@@ -155,23 +155,23 @@ export default function Index({ surats }) {
                 </Button>
             </div>
 
-            <div className="rounded-lg border overflow-hidden">
+            <div className="overflow-hidden rounded-lg border">
                 <Table>
                     <TableHeader className="bg-muted">
                         <TableRow>
-                            <TableHead className="border-r w-[10px]">
+                            <TableHead className="w-[10px] border-r">
                                 No
                             </TableHead>
-                            <TableHead className="border-r w-[210px] text-nowrap">
+                            <TableHead className="w-[210px] text-nowrap border-r">
                                 Nomor Surat
                             </TableHead>
-                            <TableHead className="border-r w-full">
+                            <TableHead className="w-full border-r">
                                 Perihal
                             </TableHead>
-                            <TableHead className="border-r text-nowrap">
+                            <TableHead className="text-nowrap border-r">
                                 Tanggal
                             </TableHead>
-                            <TableHead className="border-r px-0 text-nowrap text-center">
+                            <TableHead className="text-nowrap border-r px-0 text-center">
                                 PDF
                             </TableHead>
                             <TableHead className="px-2">Aksi</TableHead>
@@ -200,7 +200,7 @@ export default function Index({ surats }) {
                                                 className="text-muted-foreground"
                                             />
                                             {new Date(
-                                                surat.tanggal_surat
+                                                surat.tanggal_surat,
                                             ).toLocaleDateString("id-ID", {
                                                 day: "numeric",
                                                 month: "short",
@@ -221,12 +221,12 @@ export default function Index({ surats }) {
                                             />
                                         )}
                                     </TableCell>
-                                    <TableCell className="text-center py-0 px-0">
+                                    <TableCell className="px-0 py-0 text-center">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <Button
                                                     variant="ghost"
-                                                    className="h-8 w-8 p-0 m-0"
+                                                    className="m-0 h-8 w-8 p-0"
                                                 >
                                                     <MoreHorizontal className="h-4 w-4" />
                                                 </Button>
@@ -258,7 +258,7 @@ export default function Index({ surats }) {
                                                     <a
                                                         href={route(
                                                             "surat.verify",
-                                                            surat.slug
+                                                            surat.slug,
                                                         )}
                                                         target="_blank"
                                                     >
@@ -272,7 +272,7 @@ export default function Index({ surats }) {
                                                     <Link
                                                         href={route(
                                                             "surat.edit",
-                                                            surat.id
+                                                            surat.id,
                                                         )}
                                                     >
                                                         Edit Nomor Surat
@@ -280,11 +280,11 @@ export default function Index({ surats }) {
                                                 </DropdownMenuItem>
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem
-                                                    className="text-red-600 cursor-pointer focus:text-red-600"
+                                                    className="cursor-pointer text-red-600 focus:text-red-600"
                                                     onClick={(e) =>
                                                         handleDelete(
                                                             e,
-                                                            surat.id
+                                                            surat.id,
                                                         )
                                                     }
                                                 >
@@ -372,14 +372,14 @@ export default function Index({ surats }) {
                                         className={cn(
                                             "w-full justify-start text-left font-normal",
                                             !data.tanggal_surat &&
-                                                "text-muted-foreground"
+                                                "text-muted-foreground",
                                         )}
                                     >
                                         <CalendarIcon className="mr-2 h-4 w-4" />
                                         {data.tanggal_surat ? (
                                             format(
                                                 new Date(data.tanggal_surat),
-                                                "PPP"
+                                                "PPP",
                                             )
                                         ) : (
                                             <span>Pilih tanggal</span>
@@ -393,7 +393,7 @@ export default function Index({ surats }) {
                                         onSelect={(date) =>
                                             setData(
                                                 "tanggal_surat",
-                                                format(date, "yyyy-MM-dd")
+                                                format(date, "yyyy-MM-dd"),
                                             )
                                         }
                                         initialFocus
@@ -433,7 +433,7 @@ export default function Index({ surats }) {
                             </DialogClose>
                             <Button type="submit" disabled={processing}>
                                 {processing && (
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    <Loader2 className="h-4 w-4 animate-spin" />
                                 )}
                                 Simpan
                             </Button>

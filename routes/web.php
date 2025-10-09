@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\SuratController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\TahunAjaranController;
@@ -18,12 +19,14 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/hehe', function () {
-    return Inertia(
-        'Home'
-    );
-});
+// Route::get('/hehe', function () {
+//     return Inertia(
+//         'Home'
+//     );
+// });
 
+Route::get('/search', [SearchController::class, 'show'])->name('search.show');
+Route::post('/search', [SearchController::class, 'find'])->name('search.find');
 
 Route::get('/tahun-ajaran/switch/{id}', [TahunAjaranController::class, 'switch'])
     ->middleware(['auth'])

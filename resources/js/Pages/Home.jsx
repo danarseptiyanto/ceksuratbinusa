@@ -1,14 +1,17 @@
 import React from "react";
 import {
+    AlertCircle,
     BadgeQuestionMark,
     FileType,
     HandHelping,
+    Loader2,
     QrCode,
     ShieldAlert,
     UploadCloud,
     Users,
     Zap,
 } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { SquareArrowOutUpRight, FileDigit, Info, Search } from "lucide-react";
@@ -20,8 +23,18 @@ import { cn } from "@/lib/utils";
 import { Card } from "@/Components/ui/card";
 import { Input } from "@/Components/ui/input";
 import Footer from "@/Components/Footer";
+import { useForm } from "@inertiajs/react";
 
 export default function Home() {
+    const { data, setData, post, errors, processing } = useForm({
+        nomor_surat: "",
+    });
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        // Post the form data to our 'search.find' route
+        post(route("search.find"));
+    }
     return (
         <>
             <div className="flex justify-center border-b">
@@ -139,7 +152,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="mt-7">
-                        <div className="flex gap-4">
+                        <div className="flex gap-5">
                             <Card className="w-full p-6 shadow-none">
                                 <h3 className="text-lg font-semibold">
                                     Verifikasi Surat Keluar
@@ -148,15 +161,33 @@ export default function Home() {
                                     Ketikan nomor surat untuk melakukan
                                     verifikasi keaslian surat
                                 </p>
-                                <div className="mb-2 mt-4 flex w-full items-center gap-2">
+                                <form
+                                    onSubmit={handleSubmit}
+                                    className="mb-2 mt-4 flex w-full items-center gap-2"
+                                >
                                     <Input
-                                        type="email"
+                                        id="nomor_surat"
+                                        type="text"
+                                        value={data.nomor_surat}
+                                        onChange={(e) =>
+                                            setData(
+                                                "nomor_surat",
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="Nomor surat keluar"
                                     />
-                                    <Button type="submit" variant="outline">
+                                    <Button
+                                        type="submit"
+                                        variant="outline"
+                                        disabled={processing}
+                                    >
+                                        {processing && (
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                        )}
                                         Verifikasi
                                     </Button>
-                                </div>
+                                </form>
                                 <div className="mt-2 inline-flex gap-1">
                                     <BadgeQuestionMark
                                         size={15}
@@ -169,6 +200,31 @@ export default function Home() {
                             </Card>
                             <Card className="w-96 border-none bg-primary p-4 shadow-none"></Card>
                         </div>
+                        {errors.nomor_surat && (
+                            <Alert variant="destructive" className="mt-5">
+                                <AlertCircle size={16} className="mt-0.5" />
+                                <AlertTitle className="text-sm">
+                                    {errors.nomor_surat}
+                                </AlertTitle>
+                                <AlertDescription>
+                                    <ul className="list-inside list-disc space-y-0.5 text-sm">
+                                        <li>Pastikan penulisan nomor benar</li>
+                                        <li>
+                                            Contoh: "120/S.Ket/SMK.BN/X/2025"
+                                        </li>
+                                        <li>
+                                            Laporkan apabila terjadi pemalsuan{" "}
+                                            <a
+                                                href="#"
+                                                className="font-semibold underline underline-offset-4"
+                                            >
+                                                disini
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </AlertDescription>
+                            </Alert>
+                        )}
                     </div>
                 </div>
             </div>

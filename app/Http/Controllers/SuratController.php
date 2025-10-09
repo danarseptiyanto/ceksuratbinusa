@@ -116,7 +116,7 @@ class SuratController extends Controller
             $surat->update(['file_path' => $path]);
         }
 
-        return redirect()->route('surat.index')->with('success', 'Surat created successfully.');
+        return redirect()->route('surat.index')->with('success', 'Nomor surat berhasil dibuat.');
     }
 
     // Full implementation for toRoman helper

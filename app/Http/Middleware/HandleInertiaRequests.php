@@ -40,6 +40,10 @@ class HandleInertiaRequests extends Middleware
             'active_tahun_ajaran' => fn() => $request->session()->has('active_tahun_ajaran_id')
                 ? TahunAjaran::find($request->session()->get('active_tahun_ajaran_id'))
                 : null,
+            'flash' => [
+                'success' => fn() => $request->session()->get('success'),
+                'error' => fn() => $request->session()->get('error'),
+            ],
         ];
     }
 }
