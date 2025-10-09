@@ -10,14 +10,14 @@ use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\TahunAjaranController;
 use App\Http\Controllers\VerificationController;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
 // Route::get('/hehe', function () {
 //     return Inertia(
@@ -25,8 +25,8 @@ Route::get('/', function () {
 //     );
 // });
 
-Route::get('/search', [SearchController::class, 'show'])->name('search.show');
-Route::post('/search', [SearchController::class, 'find'])->name('search.find');
+Route::get('/', [SearchController::class, 'show'])->name('search.show');
+Route::post('/', [SearchController::class, 'find'])->name('search.find');
 
 Route::get('/tahun-ajaran/switch/{id}', [TahunAjaranController::class, 'switch'])
     ->middleware(['auth'])
