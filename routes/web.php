@@ -41,6 +41,7 @@ Route::get('/surat/qr/{slug}', [SuratController::class, 'downloadQr'])->name('su
 
 Route::middleware('auth')->group(function () {
     Route::resource('surat', SuratController::class);
+    Route::resource('tahun-ajaran', TahunAjaranController::class);
     Route::delete('/surat/{surat}/delete-file', [SuratController::class, 'deleteFile'])->name('surat.deleteFile');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

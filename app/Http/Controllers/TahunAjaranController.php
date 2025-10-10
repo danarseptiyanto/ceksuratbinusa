@@ -13,4 +13,11 @@ class TahunAjaranController extends Controller
         session(['active_tahun_ajaran_id' => $tahunAjaran->id]);
         return redirect()->back();
     }
+    public function index()
+    {
+        $tahunAjarans = TahunAjaran::orderBy('id', 'desc')->get();
+        return inertia('TahunAjaran/Index', [
+            'tahunAjarans' => $tahunAjarans
+        ]);
+    }
 }

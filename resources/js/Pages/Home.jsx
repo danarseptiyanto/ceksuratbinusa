@@ -24,6 +24,7 @@ import { Card } from "@/Components/ui/card";
 import { Input } from "@/Components/ui/input";
 import Footer from "@/Components/Footer";
 import { useForm } from "@inertiajs/react";
+import Navbar from "@/Components/Navbar";
 
 export default function Home() {
     const { data, setData, post, errors, processing } = useForm({
@@ -32,56 +33,11 @@ export default function Home() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        // Post the form data to our 'search.find' route
         post(route("search.find"));
     }
     return (
         <>
-            <div className="flex justify-center border-b">
-                <div className="mx-5 flex w-full max-w-screen-xl items-center justify-between gap-2 border-x px-14 py-2">
-                    <a
-                        href="#"
-                        data-sidebar="menu-button"
-                        data-size="lg"
-                        data-active="false"
-                        className="flex h-12 items-center gap-2 overflow-hidden rounded-md text-left text-sm outline-none ring-sidebar-ring transition-[width,height,padding] hover:text-sidebar-accent-foreground focus-visible:ring-2 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent group-data-[collapsible=icon]:!p-0"
-                    >
-                        <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="lucide lucide-command size-4"
-                                aria-hidden="true"
-                            >
-                                <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
-                            </svg>
-                        </div>
-                        <div className="grid flex-1 text-left text-sm leading-tight">
-                            <span className="truncate font-semibold">
-                                SMK Bina Nusantara
-                            </span>
-                            <span className="truncate text-xs">Semarang</span>
-                        </div>
-                    </a>
-                    <a
-                        href="http://binusasmg.sch.id"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <Button variant="outline" className="text-xs">
-                            <SquareArrowOutUpRight className="-mx-0.5 !h-3.5 !w-3.5" />
-                            Website Sekolah
-                        </Button>
-                    </a>
-                </div>
-            </div>
+            <Navbar />
             <div className="flex justify-center border-b">
                 <div className="mx-5 flex w-full max-w-screen-xl justify-between border-x pl-14">
                     <div className="container flex flex-col items-start gap-3 py-8 md:py-10 lg:py-12">
@@ -123,7 +79,6 @@ export default function Home() {
                             </a>
                         </div>
                     </div>
-
                     <div className="relative ml-6 flex h-80 w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-background">
                         <InteractiveGridPattern
                             className={cn(

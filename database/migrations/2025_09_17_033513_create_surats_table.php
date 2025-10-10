@@ -17,9 +17,10 @@ return new class extends Migration
             $table->foreignId('tahun_ajaran_id')->constrained()->onDelete('cascade');
             $table->string('nomor_surat');
             $table->string('nama_surat');
+            $table->string('kepada');
             $table->date('tanggal_surat');
-            $table->string('file_path')->nullable(); // To store the PDF path
-            $table->string('slug')->unique(); // For the public verification URL
+            $table->string('file_path')->nullable();
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

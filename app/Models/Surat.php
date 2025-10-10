@@ -15,6 +15,7 @@ class Surat extends Model
         'tahun_ajaran_id',
         'nomor_surat',
         'nama_surat',
+        'kepada',
         'tanggal_surat',
         'file_path',
         'slug',

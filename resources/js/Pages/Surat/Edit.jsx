@@ -22,6 +22,7 @@ export default function Edit({ surat }) {
     const { data, setData, post, errors, processing } = useForm({
         _method: "PUT",
         nomor_surat: surat.nomor_surat || "",
+        kepada: surat.kepada || "",
         nama_surat: surat.nama_surat || "",
         tanggal_surat: surat.tanggal_surat || "",
         pdf_file: null,
@@ -45,7 +46,7 @@ export default function Edit({ surat }) {
         <AppLayout bc1="Surat Keluar" bc2="Edit Surat Keluar">
             <Head title="Edit Surat" />
 
-            <div className="py-5 border-b -mx-5 px-5">
+            <div className="-mx-5 border-b px-5 py-5">
                 <h1 className="text-2xl font-semibold leading-normal">
                     Edit Surat Keluar
                 </h1>
@@ -59,7 +60,7 @@ export default function Edit({ surat }) {
                     <form onSubmit={submit}>
                         <Card>
                             <CardHeader className="border-b">
-                                <h1 className="font-semibold text-lg leading-tight">
+                                <h1 className="text-lg font-semibold leading-tight">
                                     Formulir Edit Surat
                                 </h1>
                             </CardHeader>
@@ -75,7 +76,7 @@ export default function Edit({ surat }) {
                                         onChange={(e) =>
                                             setData(
                                                 "nomor_surat",
-                                                e.target.value
+                                                e.target.value,
                                             )
                                         }
                                         autoComplete="off"
@@ -87,6 +88,24 @@ export default function Edit({ surat }) {
                                     )}
                                 </div>
 
+                                {/* Kepada */}
+                                <div className="space-y-2">
+                                    <Label htmlFor="kepada">Kepada</Label>
+                                    <Input
+                                        id="kepada"
+                                        type="text"
+                                        value={data.kepada}
+                                        onChange={(e) =>
+                                            setData("kepada", e.target.value)
+                                        }
+                                        autoComplete="off"
+                                    />
+                                    {errors.kepada && (
+                                        <p className="text-sm text-destructive">
+                                            {errors.kepada}
+                                        </p>
+                                    )}
+                                </div>
                                 {/* Nama/Perihal Surat */}
                                 <div className="space-y-2">
                                     <Label htmlFor="nama_surat">
@@ -99,7 +118,7 @@ export default function Edit({ surat }) {
                                         onChange={(e) =>
                                             setData(
                                                 "nama_surat",
-                                                e.target.value
+                                                e.target.value,
                                             )
                                         }
                                         autoComplete="off"
@@ -123,16 +142,16 @@ export default function Edit({ surat }) {
                                                 className={cn(
                                                     "w-full justify-start text-left font-normal",
                                                     !data.tanggal_surat &&
-                                                        "text-muted-foreground"
+                                                        "text-muted-foreground",
                                                 )}
                                             >
                                                 <CalendarIcon className="mr-2 h-4 w-4" />
                                                 {data.tanggal_surat ? (
                                                     format(
                                                         new Date(
-                                                            data.tanggal_surat
+                                                            data.tanggal_surat,
                                                         ),
-                                                        "PPP"
+                                                        "PPP",
                                                     )
                                                 ) : (
                                                     <span>Pilih tanggal</span>
@@ -150,8 +169,8 @@ export default function Edit({ surat }) {
                                                         "tanggal_surat",
                                                         format(
                                                             date,
-                                                            "yyyy-MM-dd"
-                                                        )
+                                                            "yyyy-MM-dd",
+                                                        ),
                                                     )
                                                 }
                                                 initialFocus
@@ -169,7 +188,7 @@ export default function Edit({ surat }) {
                                 <div className="space-y-2">
                                     <Label>Manajemen File PDF</Label>
                                     {surat.file_path ? (
-                                        <div className="flex items-center gap-3 px-6 p-3 bg-muted rounded-md">
+                                        <div className="flex items-center gap-3 rounded-md bg-muted p-3 px-6">
                                             <a
                                                 href={`/storage/${surat.file_path}`}
                                                 target="_blank"
@@ -188,7 +207,7 @@ export default function Edit({ surat }) {
                                             </Button>
                                         </div>
                                     ) : (
-                                        <p className="text-sm text-muted-foreground italic">
+                                        <p className="text-sm italic text-muted-foreground">
                                             Tidak ada file PDF yang terlampir.
                                         </p>
                                     )}
@@ -207,7 +226,7 @@ export default function Edit({ surat }) {
                                         onChange={(e) =>
                                             setData(
                                                 "pdf_file",
-                                                e.target.files[0]
+                                                e.target.files[0],
                                             )
                                         }
                                     />
@@ -218,7 +237,7 @@ export default function Edit({ surat }) {
                                     )}
                                 </div>
                             </CardContent>
-                            <CardFooter className="border-t pt-5 bg-muted rounded-b-lg flex justify-end gap-2">
+                            <CardFooter className="flex justify-end gap-2 rounded-b-lg border-t bg-muted pt-5">
                                 <Button asChild variant="outline">
                                     <Link href={route("surat.index")}>
                                         Cancel

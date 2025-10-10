@@ -5,6 +5,7 @@ import {
     CalendarClock,
     CalendarPlus2Icon,
     Command,
+    FileCheck,
     FileInput,
     FileOutput,
     FileQuestionMark,
@@ -76,9 +77,14 @@ export function AppSidebar({ ...props }) {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <a href="#">
+                            <Link href="/">
                                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                                    <Command className="size-4" />
+                                    {/* <Command className="size-4" /> */}
+                                    <img
+                                        src="/img/logosekolah.png"
+                                        className="p-1.5"
+                                        alt="BN"
+                                    />
                                 </div>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
                                     <span className="truncate font-semibold">
@@ -88,16 +94,16 @@ export function AppSidebar({ ...props }) {
                                         Semarang
                                     </span>
                                 </div>
-                            </a>
+                            </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
             <SidebarContent>
-                <ul className="flex mt-1 ms-3  min-w-0 flex-col gap-1">
-                    <li className="group/menu-item relative w-[218px] flex items-center gap-2">
+                <ul className="ms-3 mt-1 flex min-w-0 flex-col gap-1">
+                    <li className="group/menu-item relative flex w-[218px] items-center gap-2">
                         <Link href={route("surat.index", { action: "create" })}>
-                            <button className="peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 h-8 text-sm bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear">
+                            <button className="peer/menu-button outline-hidden group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&amp;&gt;span:last-child]:truncate [&amp;&gt;svg]:size-4 [&amp;&gt;svg]:shrink-0 flex h-8 w-full min-w-8 items-center gap-2 overflow-hidden rounded-md bg-primary p-2 text-left text-sm text-primary-foreground ring-sidebar-ring transition-[width,height,padding] duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground focus-visible:ring-2 active:bg-primary/90 active:text-primary-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="24"
@@ -105,11 +111,11 @@ export function AppSidebar({ ...props }) {
                                     viewBox="0 0 24 24"
                                     fill="currentColor"
                                     stroke="none"
-                                    className="tabler-icon tabler-icon-circle-plus-filled "
+                                    className="tabler-icon tabler-icon-circle-plus-filled"
                                 >
                                     <path d="M4.929 4.929a10 10 0 1 1 14.141 14.141a10 10 0 0 1 -14.14 -14.14zm8.071 4.071a1 1 0 1 0 -2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 1 0 2 0v-2h2a1 1 0 1 0 0 -2h-2v-2z"></path>
                                 </svg>
-                                <span className="text-[13px] pr-7">
+                                <span className="pr-7 text-[13px]">
                                     Buat Surat Keluar
                                 </span>
                             </button>
@@ -117,7 +123,7 @@ export function AppSidebar({ ...props }) {
                         <Link href={route("surat.index")}>
                             <button
                                 data-slot="button"
-                                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-8 group-data-[collapsible=icon]:opacity-0"
+                                className="[&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 [&amp;_svg]:shrink-0 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive shadow-xs inline-flex size-8 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md border bg-background text-sm font-medium outline-none transition-all hover:bg-accent hover:text-accent-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 group-data-[collapsible=icon]:opacity-0 dark:border-input dark:bg-input/30 dark:hover:bg-input/50"
                             >
                                 <TextAlignStart size={17} />
                             </button>
@@ -129,7 +135,7 @@ export function AppSidebar({ ...props }) {
                     <SidebarMenu>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <Link href="#">
+                                <Link href={route("surat.index")}>
                                     <FileOutput />
                                     <span>Surat Keluar</span>
                                 </Link>
@@ -137,7 +143,7 @@ export function AppSidebar({ ...props }) {
                         </SidebarMenuItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <Link href="#">
+                                <Link href={route("surat-masuk.index")}>
                                     <FileInput />
                                     <span>Surat Masuk</span>
                                 </Link>
@@ -145,7 +151,15 @@ export function AppSidebar({ ...props }) {
                         </SidebarMenuItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <Link href="#">
+                                <Link href={route("surat-masuk.index")}>
+                                    <FileCheck />
+                                    <span>Surat Internal</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild>
+                                <Link href={route("tahun-ajaran.index")}>
                                     <CalendarClock />
                                     <span>Tahun Ajaran</span>
                                 </Link>
@@ -154,7 +168,7 @@ export function AppSidebar({ ...props }) {
                     </SidebarMenu>
                 </SidebarGroup>
                 <SidebarGroup className="-mt-4">
-                    <SidebarGroupLabel>Dokumen</SidebarGroupLabel>
+                    <SidebarGroupLabel>Lainnya</SidebarGroupLabel>
                     <SidebarMenu>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
@@ -183,12 +197,12 @@ export function AppSidebar({ ...props }) {
                     </SidebarMenu>
                 </SidebarGroup>
                 {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
-                <Card className="py-3 mt-auto mx-3 shadow-none mb-0 hidden md:block">
+                <Card className="mx-3 mb-0 mt-auto hidden py-3 shadow-none md:block">
                     <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1 px-3">
-                        <div className="font-semibold text-sm leading-tight">
+                        <div className="text-sm font-semibold leading-tight">
                             Welcome!
                         </div>
-                        <div className="text-muted-foreground text-[13px]">
+                        <div className="text-[13px] text-muted-foreground">
                             Aplikasi masih dalam pengembangan. Lihat dokumentasi
                             untuk informasi lebih lanjut.
                             <p>
@@ -199,7 +213,7 @@ export function AppSidebar({ ...props }) {
                                     <Button
                                         variant="secondary"
                                         size="sm"
-                                        className="w-full mt-2 text-[13px] h-7"
+                                        className="mt-2 h-7 w-full text-[13px]"
                                     >
                                         Dokumentasi
                                     </Button>

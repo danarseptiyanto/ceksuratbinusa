@@ -17,8 +17,8 @@ class SuratMasukController extends Controller
         }
 
         $suratMasuks = SuratMasuk::where('tahun_ajaran_id', $activeTahunAjaranId)
-            ->orderBy('tanggal_surat', 'desc')
-            ->paginate(10);
+            ->orderBy('id', 'desc')
+            ->get();
 
         return Inertia::render('SuratMasuk/Index', [
             'suratMasuks' => $suratMasuks

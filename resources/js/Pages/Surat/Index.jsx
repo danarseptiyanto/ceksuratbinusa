@@ -10,7 +10,6 @@ import {
     CircleAlert,
     Search,
     CirclePlus,
-    Paperclip,
 } from "lucide-react";
 import {
     Dialog,
@@ -20,7 +19,6 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
@@ -64,11 +62,9 @@ export default function Index({ surats }) {
         if (action === "create") {
             setOpen(true);
 
-            // ✅ Use browser history API instead of Inertia router
-            // This avoids triggering Inertia re-renders
             window.history.replaceState({}, "", route("surat.index"));
         }
-    }, []); // only run once when mounted
+    }, []);
 
     const today = new Date();
     const year = today.getFullYear();
@@ -92,6 +88,7 @@ export default function Index({ surats }) {
     const { data, setData, post, reset, errors, processing } = useForm({
         nomor_surat: generatedNomorSurat,
         nama_surat: "",
+        kepada: "",
         tanggal_surat: today.toISOString().slice(0, 10),
         pdf_file: null,
     });
@@ -118,7 +115,6 @@ export default function Index({ surats }) {
                     .includes(searchTerm.toLowerCase()),
         );
     }, [surats, searchTerm]);
-
     function handleDelete(e, suratId) {
         e.preventDefault();
         if (confirm("Are you sure you want to delete this item?")) {
@@ -127,7 +123,6 @@ export default function Index({ surats }) {
             });
         }
     }
-
     return (
         <AppLayout bc1="Surat Keluar" bc2="Daftar Surat Keluar">
             <div className="-mx-5 border-b px-5 py-5">
@@ -138,7 +133,6 @@ export default function Index({ surats }) {
                     Buat, kelola, atau hapus daftar surat keluar.
                 </p>
             </div>
-
             <div className="mb-4 mt-5 flex items-center justify-between">
                 <div className="relative w-72">
                     <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
@@ -312,7 +306,7 @@ export default function Index({ surats }) {
 
             {/* Dialog Form */}
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="sm:max-w-[525px]">
+                <DialogContent className="sm:max-w-[725px]">
                     <form onSubmit={submit} className="space-y-4">
                         <DialogHeader>
                             <DialogTitle>Tambah Surat Baru</DialogTitle>
@@ -322,25 +316,44 @@ export default function Index({ surats }) {
                             </DialogDescription>
                         </DialogHeader>
 
-                        {/* Nomor Surat */}
-                        <div className="space-y-2">
-                            <Label htmlFor="nomor_surat">Nomor Surat</Label>
-                            <Input
-                                id="nomor_surat"
-                                type="text"
-                                value={data.nomor_surat}
-                                onChange={(e) =>
-                                    setData("nomor_surat", e.target.value)
-                                }
-                                autoComplete="off"
-                            />
-                            {errors.nomor_surat && (
-                                <p className="text-sm text-destructive">
-                                    {errors.nomor_surat}
-                                </p>
-                            )}
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            {/* Nomor Surat */}
+                            <div className="space-y-2">
+                                <Label htmlFor="nomor_surat">Nomor Surat</Label>
+                                <Input
+                                    id="nomor_surat"
+                                    type="text"
+                                    value={data.nomor_surat}
+                                    onChange={(e) =>
+                                        setData("nomor_surat", e.target.value)
+                                    }
+                                    autoComplete="off"
+                                />
+                                {errors.nomor_surat && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.nomor_surat}
+                                    </p>
+                                )}
+                            </div>
+                            {/* Kepada */}
+                            <div className="space-y-2">
+                                <Label htmlFor="kepada">Kepada</Label>
+                                <Input
+                                    id="kepada"
+                                    type="text"
+                                    value={data.kepada}
+                                    onChange={(e) =>
+                                        setData("kepada", e.target.value)
+                                    }
+                                    autoComplete="off"
+                                />
+                                {errors.kepada && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.kepada}
+                                    </p>
+                                )}
+                            </div>
                         </div>
-
                         {/* Nama Surat */}
                         <div className="space-y-2">
                             <Label htmlFor="nama_surat">
