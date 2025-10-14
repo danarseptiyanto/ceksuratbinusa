@@ -4,7 +4,7 @@ import QRCode from "react-qr-code";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 export default function QRDownload({ slug }) {
-    const appUrl = import.meta.env.VITE_APP_URL || "http://localhost:8000";
+    const appUrl = `${window.location.protocol}//${window.location.host}`;
     const qrValue = `${appUrl}/verify/${slug}`;
     const qrRef = useRef(null);
 
