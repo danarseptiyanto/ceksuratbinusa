@@ -4,15 +4,11 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Surat;
-use BaconQrCode\Writer;
 use Illuminate\Http\Request;
 use Intervention\Image\Image;
-use BaconQrCode\Renderer\ImageRenderer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use BaconQrCode\Renderer\Image\SvgImageBackEnd;
-use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 
 class SuratController extends Controller
 {
@@ -34,60 +30,6 @@ class SuratController extends Controller
 
         return Inertia::render('Surat/Index', [
             'surats' => $surats
-        ]);
-    }
-
-    public function downloadQr($slug)
-    {
-        // Build your URL
-        $url = url('/' . $slug);
-
-        // Generate QR Code as PNG binary
-        $qr = QrCode::format('png')->size(200)->generate($url);
-
-        // Create an Intervention Image from the QR binary
-        $qrImage = Image::read($qr);
-
-        // Create a blank white canvas (width 400px, height 300px)
-        $canvas = Image::canvas(400, 300, '#ffffff');
-
-        // Add text
-        $canvas->text('Here\'s the QR code for the URL:', 200, 40, function ($font) {
-            $font->size(20);
-            $font->align('center');
-            $font->valign('middle');
-            $font->color('#000000');
-        });
-
-        // Insert the QR code image into the canvas
-        $canvas->insert($qrImage, 'center', 0, 40);
-
-        // Encode final image as PNG
-        $finalImage = $canvas->encode('png');
-
-        // Return as downloadable file
-        return Response::make($finalImage)
-            ->header('Content-Type', 'image/png')
-            ->header('Content-Disposition', 'attachment; filename="qr-' . $slug . '.png"');
-    }
-
-    public function create(Request $request)
-    {
-        // Generate suggested number
-        $month = date('n');
-        $year = date('Y');
-        $romanMonth = $this->toRoman($month);
-
-        // Get the latest number for the current month and year to increment it
-        $lastSurat = Surat::whereYear('created_at', $year)
-            ->whereMonth('created_at', $month)
-            ->count();
-        $increment = $lastSurat + 1;
-
-        $suggestedNumber = sprintf("%03d/SK/SMK.BN/%s/%d", $increment, $romanMonth, $year);
-
-        return Inertia::render('Surat/Create', [
-            'suggestedNumber' => $suggestedNumber,
         ]);
     }
 
@@ -119,23 +61,6 @@ class SuratController extends Controller
         }
 
         return redirect()->route('surat.index')->with('success', 'Nomor surat berhasil dibuat.');
-    }
-
-    // Full implementation for toRoman helper
-    private function toRoman($number)
-    {
-        $map = ['M' => 1000, 'CM' => 900, 'D' => 500, 'CD' => 400, 'C' => 100, 'XC' => 90, 'L' => 50, 'XL' => 40, 'X' => 10, 'IX' => 9, 'V' => 5, 'IV' => 4, 'I' => 1];
-        $returnValue = '';
-        while ($number > 0) {
-            foreach ($map as $roman => $int) {
-                if ($number >= $int) {
-                    $number -= $int;
-                    $returnValue .= $roman;
-                    break;
-                }
-            }
-        }
-        return $returnValue;
     }
 
     /**
