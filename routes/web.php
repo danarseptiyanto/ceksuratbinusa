@@ -36,8 +36,6 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/surat/qr/{slug}', [SuratController::class, 'downloadQr'])->name('surat.qr');
-
 
 Route::middleware('auth')->group(function () {
     Route::resource('surat', SuratController::class);
@@ -46,12 +44,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
     Route::resource('surat-masuk', SuratMasukController::class);
     Route::delete('/surat-masuk/{suratMasuk}/delete-file', [SuratMasukController::class, 'deleteFile'])->name('surat-masuk.deleteFile');
 });
 
 Route::get('/verify/{slug}', [VerificationController::class, 'show'])->name('surat.verify');
-
 
 require __DIR__ . '/auth.php';
