@@ -47,8 +47,8 @@ export default function Show({ surat, verificationUrl }) {
                     />
                 </div>
             </div>
-            <div className="border-b">
-                <div className="mx-5 -mt-5 max-w-screen-xl border-x px-4 pb-5 md:px-14 md:pb-14">
+            <div className="flex justify-center border-b">
+                <div className="mx-5 -mt-5 w-full max-w-screen-xl border-x px-4 pb-5 md:px-14 md:pb-14">
                     <div className="shadow-xs relative z-50 flex h-10 items-center justify-between rounded-lg border border-neutral-200 bg-white bg-gradient-to-r from-gray-50 via-transparent to-transparent px-2">
                         <div className="flex w-full items-center gap-3">
                             <div className="inline-flex h-6 w-fit min-w-5 shrink-0 items-center justify-center gap-1 rounded-md bg-primary px-1.5 font-mono text-xs/none uppercase leading-3 text-white transition-colors">
@@ -80,33 +80,55 @@ export default function Show({ surat, verificationUrl }) {
                                                 size={12}
                                                 className="text-muted-foreground"
                                             />
-                                            <div className="flex-1 font-mono text-xs leading-3 text-neutral-900 dark:text-neutral-400">
+                                            <div className="flex gap-1.5 font-mono text-xs leading-3 text-neutral-900 dark:text-neutral-400">
                                                 Ditemukan 1 file{" "}
                                                 <span className="hidden md:block">
                                                     yang dilampirkan
                                                 </span>
                                             </div>
                                         </div>
-                                        <a
-                                            href={surat.file_url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="font-semibold underline"
-                                        >
-                                            <Button
-                                                size="sm"
-                                                variant="outline"
-                                                className="-mr-1 h-8 text-xs"
+                                        {surat.showpdf ? (
+                                            <a
+                                                href={surat.file_url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="font-semibold underline"
                                             >
-                                                <FileDown
-                                                    size={11}
-                                                    className="-mx-0.5"
-                                                />
-                                                <span className="hidden md:block">
-                                                    Download
-                                                </span>
-                                            </Button>
-                                        </a>
+                                                <Button
+                                                    size="sm"
+                                                    variant="outline"
+                                                    className="-mr-1 h-8 text-xs"
+                                                >
+                                                    <FileDown
+                                                        size={11}
+                                                        className="-mx-0.5"
+                                                    />
+                                                    <span className="hidden md:block">
+                                                        Download
+                                                    </span>
+                                                </Button>
+                                            </a>
+                                        ) : (
+                                            <div
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="font-semibold underline"
+                                            >
+                                                <Button
+                                                    size="sm"
+                                                    variant="destructive"
+                                                    className="-mr-1 h-8 cursor-not-allowed text-xs"
+                                                >
+                                                    <FileDown
+                                                        size={11}
+                                                        className="-mx-0.5"
+                                                    />
+                                                    <span className="hidden md:block">
+                                                        Unduh Tidak Diizinkan
+                                                    </span>
+                                                </Button>
+                                            </div>
+                                        )}
                                     </>
                                 ) : (
                                     <>
@@ -122,19 +144,28 @@ export default function Show({ surat, verificationUrl }) {
                             </div>
                         </div>
                         {surat.file_url ? (
-                            <div className="overflow-hidden rounded-md border">
-                                <iframe
-                                    src={`${surat.file_url}#toolbar=0`}
-                                    className="h-[450px] w-full md:h-[1200px]"
-                                    style={{
-                                        border: "none",
-                                        margin: 0,
-                                        padding: 0,
-                                        display: "block",
-                                    }}
-                                    title="PDF Viewer"
-                                ></iframe>
-                            </div>
+                            surat.showpdf ? (
+                                <div className="overflow-hidden rounded-md border">
+                                    <iframe
+                                        src={`${surat.file_url}#toolbar=0`}
+                                        className="h-[450px] w-full md:h-[1200px]"
+                                        style={{
+                                            border: "none",
+                                            margin: 0,
+                                            padding: 0,
+                                            display: "block",
+                                        }}
+                                        title="PDF Viewer"
+                                    ></iframe>
+                                </div>
+                            ) : (
+                                <div className="flex h-[700px] items-center justify-center overflow-hidden rounded-md border">
+                                    <h1>
+                                        File PDF tidak diizinkan untuk diakses
+                                        pengunjung
+                                    </h1>
+                                </div>
+                            )
                         ) : (
                             <div className="flex h-[700px] items-center justify-center overflow-hidden rounded-md border">
                                 <h1>Tidak Ditemukan</h1>
