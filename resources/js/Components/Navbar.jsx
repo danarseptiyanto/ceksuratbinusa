@@ -1,12 +1,12 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ShieldUser, SquareArrowOutUpRight } from "lucide-react";
+import { ShieldUser, SquareArrowOutUpRight, UserRoundPen } from "lucide-react";
 import { Link } from "@inertiajs/react";
 
 export default function Navbar() {
     return (
-        <div className="border-b">
-            <div className="mx-5 flex max-w-screen-xl items-center justify-between gap-2 border-x px-4 py-2 md:px-14">
+        <div className="flex justify-center border-b">
+            <div className="mx-5 flex w-full max-w-screen-xl items-center justify-between gap-2 border-x px-4 py-2 md:px-14">
                 <Link
                     href="/"
                     className="flex h-12 items-center gap-2 overflow-hidden rounded-md text-left text-sm outline-none ring-sidebar-ring transition-[width,height,padding] hover:text-sidebar-accent-foreground focus-visible:ring-2 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent group-data-[collapsible=icon]:!p-0"
@@ -28,7 +28,7 @@ export default function Navbar() {
                 <div className="hidden md:block">
                     <Link href="/login" className="me-2">
                         <Button>
-                            <ShieldUser className="-mx-0.5 !h-3.5 !w-3.5" />
+                            <UserRoundPen className="-mx-0.5 !h-3.5 !w-3.5" />
                         </Button>
                     </Link>
                     <a
@@ -47,7 +47,7 @@ export default function Navbar() {
                     className="flex h-12 items-center gap-2 overflow-hidden rounded-md text-left text-sm outline-none ring-sidebar-ring transition-[width,height,padding] hover:text-sidebar-accent-foreground focus-visible:ring-2 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent group-data-[collapsible=icon]:!p-0 md:hidden"
                 >
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                        <ShieldUser className="-mx-0.5 !h-3.5 !w-3.5" />
+                        <UserRoundPen className="-mx-0.5 !h-3.5 !w-3.5" />
                     </div>
                 </Link>
             </div>

@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 import { Card } from "@/Components/ui/card";
 import { Input } from "@/Components/ui/input";
 import Footer from "@/Components/Footer";
-import { useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import Navbar from "@/Components/Navbar";
 
 export default function Home() {
@@ -38,6 +38,7 @@ export default function Home() {
     return (
         <>
             <Navbar />
+            <Head title="Cek Surat Binusa" />
             <div className="flex justify-center border-b">
                 <div className="mx-5 flex w-full max-w-screen-xl justify-between border-x pl-4 lg:pl-14">
                     <div className="container flex flex-col items-start gap-3 py-8 md:py-10 lg:py-12">
@@ -132,6 +133,7 @@ export default function Home() {
                                                 e.target.value,
                                             )
                                         }
+                                        className="text-sm"
                                         placeholder="Nomor surat keluar"
                                     />
                                     <Button
@@ -156,7 +158,7 @@ export default function Home() {
                                     </span>
                                 </div>
                             </Card>
-                            <Card className="hidden w-96 border-none bg-primary p-4 shadow-none lg:block"></Card>
+                            {/* <Card className="hidden w-96 border-none bg-primary p-4 shadow-none lg:block"></Card> */}
                         </div>
                         {errors.nomor_surat && (
                             <Alert variant="destructive" className="mt-5">

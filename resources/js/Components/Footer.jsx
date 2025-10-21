@@ -5,7 +5,7 @@ const Footer = () => {
     return (
         <>
             <div className="flex justify-center border-b">
-                <div className="mx-5 flex w-full max-w-screen-xl justify-center border-x px-14 py-8">
+                <div className="mx-5 flex w-full max-w-screen-xl justify-center border-x px-4 py-8 md:px-14">
                     <div className="text-sm">
                         Dibuat oleh{" "}
                         <a
@@ -27,8 +27,11 @@ const Footer = () => {
                 </div>
             </div>
             <div className="flex justify-center border-b">
-                <div className="mx-5 flex w-full max-w-screen-xl items-center justify-between border-x px-14 pb-4 pt-3">
-                    <a href="https://binusasmg.sch.id/" className="text-sm">
+                <div className="mx-5 flex w-full max-w-screen-xl flex-col items-center justify-between border-x px-4 pb-4 pt-3 md:flex-row md:px-14">
+                    <a
+                        href="https://binusasmg.sch.id/"
+                        className="hidden text-sm md:block"
+                    >
                         <span className="me-2 rounded-xl bg-primary px-2.5 py-0.5 font-semibold text-white">
                             2025
                         </span>

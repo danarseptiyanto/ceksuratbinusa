@@ -144,14 +144,6 @@ export function AppSidebar({ ...props }) {
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
                                 <Link href={route("surat-masuk.index")}>
-                                    <FileInput />
-                                    <span>Surat Masuk</span>
-                                </Link>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                        <SidebarMenuItem>
-                            <SidebarMenuButton asChild>
-                                <Link href={route("surat-masuk.index")}>
                                     <FileCheck />
                                     <span>Surat Internal</span>
                                 </Link>
@@ -159,9 +151,9 @@ export function AppSidebar({ ...props }) {
                         </SidebarMenuItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <Link href={route("tahun-ajaran.index")}>
-                                    <CalendarClock />
-                                    <span>Tahun Ajaran</span>
+                                <Link href={route("surat-masuk.index")}>
+                                    <FileInput />
+                                    <span>Surat Masuk</span>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
@@ -170,7 +162,7 @@ export function AppSidebar({ ...props }) {
                 <SidebarGroup className="-mt-4">
                     <SidebarGroupLabel>Lainnya</SidebarGroupLabel>
                     <SidebarMenu>
-                        <SidebarMenuItem>
+                        {/* <SidebarMenuItem>
                             <SidebarMenuButton asChild>
                                 <Link href="#">
                                     <FileType2 />
@@ -183,6 +175,14 @@ export function AppSidebar({ ...props }) {
                                 <Link href="#">
                                     <FileType />
                                     <span>PDF Surat Masuk</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem> */}
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild>
+                                <Link href={route("tahun-ajaran.index")}>
+                                    <CalendarClock />
+                                    <span>Tahun Ajaran</span>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>

@@ -23,12 +23,13 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Link, usePage } from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
 import FlashMessage from "@/Components/FlashMessage";
 
 export default function AppLayout({
     bc1 = "Dashboard",
     bc2 = "Surat",
+    title = "Cek Surat Binusa",
     children,
 }) {
     const { auth, all_tahun_ajaran, active_tahun_ajaran } = usePage().props;
@@ -38,65 +39,70 @@ export default function AppLayout({
     };
 
     return (
-        <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b">
-                    <div className="flex items-center gap-2 px-4">
-                        <SidebarTrigger className="-ml-1" />
-                        <Separator
-                            orientation="vertical"
-                            className="mr-2 data-[orientation=vertical]:h-4"
-                        />
-                        <Breadcrumb>
-                            <BreadcrumbList>
-                                <BreadcrumbItem className="hidden md:block">
-                                    {bc1}
-                                </BreadcrumbItem>
-                                <BreadcrumbSeparator className="hidden md:block" />
-                                <BreadcrumbItem>
-                                    <BreadcrumbPage>{bc2}</BreadcrumbPage>
-                                </BreadcrumbItem>
-                            </BreadcrumbList>
-                        </Breadcrumb>
+        <>
+            <Head title={title} />
+            <SidebarProvider>
+                <AppSidebar />
+                <SidebarInset>
+                    <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b">
+                        <div className="flex items-center gap-2 px-4">
+                            <SidebarTrigger className="-ml-1" />
+                            <Separator
+                                orientation="vertical"
+                                className="mr-2 data-[orientation=vertical]:h-4"
+                            />
+                            <Breadcrumb>
+                                <BreadcrumbList>
+                                    <BreadcrumbItem className="hidden md:block">
+                                        {bc1}
+                                    </BreadcrumbItem>
+                                    <BreadcrumbSeparator className="hidden md:block" />
+                                    <BreadcrumbItem>
+                                        <BreadcrumbPage>{bc2}</BreadcrumbPage>
+                                    </BreadcrumbItem>
+                                </BreadcrumbList>
+                            </Breadcrumb>
+                        </div>
+                        <div className="px-4">
+                            {all_tahun_ajaran && (
+                                <Select
+                                    value={active_tahun_ajaran?.id || ""}
+                                    onValueChange={handleTahunAjaranChange}
+                                >
+                                    <SelectTrigger className="w-[150px]">
+                                        <CalendarClock
+                                            size={15}
+                                            className="-mr-1 text-muted-foreground"
+                                        />
+                                        <SelectValue placeholder="Select a fruit" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>
+                                                Tahun Ajaran
+                                            </SelectLabel>
+                                            {all_tahun_ajaran.map((ta) => (
+                                                <SelectItem
+                                                    key={ta.id}
+                                                    value={ta.id}
+                                                >
+                                                    {ta.tahun}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        </div>
+                    </header>
+                    <div className="flex flex-1 flex-col gap-4 p-5 pt-0">
+                        <main>
+                            <article>{children}</article>
+                            <FlashMessage />
+                        </main>
                     </div>
-                    <div className="px-4">
-                        {all_tahun_ajaran && (
-                            <Select
-                                value={active_tahun_ajaran?.id || ""}
-                                onValueChange={handleTahunAjaranChange}
-                            >
-                                <SelectTrigger className="w-[150px]">
-                                    <CalendarClock
-                                        size={15}
-                                        className="-mr-1 text-muted-foreground"
-                                    />
-                                    <SelectValue placeholder="Select a fruit" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Tahun Ajaran</SelectLabel>
-                                        {all_tahun_ajaran.map((ta) => (
-                                            <SelectItem
-                                                key={ta.id}
-                                                value={ta.id}
-                                            >
-                                                {ta.tahun}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        )}
-                    </div>
-                </header>
-                <div className="flex flex-1 flex-col gap-4 p-5 pt-0">
-                    <main>
-                        <article>{children}</article>
-                        <FlashMessage />
-                    </main>
-                </div>
-            </SidebarInset>
-        </SidebarProvider>
+                </SidebarInset>
+            </SidebarProvider>
+        </>
     );
 }
