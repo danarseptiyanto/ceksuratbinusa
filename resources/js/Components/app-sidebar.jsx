@@ -79,7 +79,11 @@ const data = {
     ],
 };
 
-export function AppSidebar({ all_tahun_ajaran, active_tahun_ajaran, ...props }) {
+export function AppSidebar({
+    all_tahun_ajaran,
+    active_tahun_ajaran,
+    ...props
+}) {
     const handleTahunAjaranChange = (newTahunAjaranId) => {
         window.location.href = route("tahun-ajaran.switch", newTahunAjaranId);
     };
@@ -209,7 +213,7 @@ export function AppSidebar({ all_tahun_ajaran, active_tahun_ajaran, ...props }) 
                     </SidebarMenu>
                 </SidebarGroup>
                 {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
-                <Card className="mx-3 mb-0 mt-auto hidden py-3 shadow-none md:block">
+                <Card className="mx-3 mb-0.5 mt-auto hidden py-3 shadow-none md:block">
                     <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1 px-3">
                         <div className="text-sm font-semibold leading-tight">
                             Welcome!
@@ -249,14 +253,9 @@ export function AppSidebar({ all_tahun_ajaran, active_tahun_ajaran, ...props }) 
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
-                                    <SelectLabel>
-                                        Tahun Ajaran
-                                    </SelectLabel>
+                                    <SelectLabel>Tahun Ajaran</SelectLabel>
                                     {all_tahun_ajaran.map((ta) => (
-                                        <SelectItem
-                                            key={ta.id}
-                                            value={ta.id}
-                                        >
+                                        <SelectItem key={ta.id} value={ta.id}>
                                             {ta.tahun}
                                         </SelectItem>
                                     ))}
