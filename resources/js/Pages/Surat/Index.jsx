@@ -20,6 +20,14 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -91,6 +99,8 @@ export default function Index({ surats }) {
         kepada: "",
         tanggal_surat: today.toISOString().slice(0, 10),
         pdf_file: null,
+        tipe: "surat internal",
+        showpdf: true,
     });
 
     function submit(e) {
@@ -438,6 +448,58 @@ export default function Index({ surats }) {
                                     {errors.pdf_file}
                                 </p>
                             )}
+                        </div>
+
+                        {/* Tipe and Show PDF */}
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div className="space-y-2">
+                                <Label htmlFor="tipe">Tipe Surat</Label>
+                                <Select
+                                    value={data.tipe}
+                                    onValueChange={(value) =>
+                                        setData("tipe", value)
+                                    }
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Pilih tipe surat" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="surat keluar">
+                                            Surat Keluar
+                                        </SelectItem>
+                                        <SelectItem value="surat internal">
+                                            Surat Internal
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                {errors.tipe && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.tipe}
+                                    </p>
+                                )}
+                            </div>
+                            <div className="space-y-2 pt-8">
+                                <div className="flex items-center space-x-2">
+                                    <Checkbox
+                                        id="showpdf"
+                                        checked={data.showpdf}
+                                        onCheckedChange={(value) =>
+                                            setData("showpdf", value)
+                                        }
+                                    />
+                                    <label
+                                        htmlFor="showpdf"
+                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                    >
+                                        Tampilkan PDF
+                                    </label>
+                                </div>
+                                {errors.showpdf && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.showpdf}
+                                    </p>
+                                )}
+                            </div>
                         </div>
 
                         <DialogFooter>

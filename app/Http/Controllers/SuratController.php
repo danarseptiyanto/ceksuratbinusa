@@ -41,6 +41,8 @@ class SuratController extends Controller
             'kepada' => 'required|string|max:255',
             'tanggal_surat' => 'required|date',
             'pdf_file' => 'nullable|file|mimes:pdf|max:2048', // 2MB Max
+            'tipe' => 'required|in:surat keluar,surat internal',
+            'showpdf' => 'boolean',
         ]);
 
         $activeTahunAjaranId = $request->session()->get('active_tahun_ajaran_id');
@@ -52,6 +54,8 @@ class SuratController extends Controller
             'nama_surat' => $request->nama_surat,
             'kepada' => $request->kepada,
             'tanggal_surat' => $request->tanggal_surat,
+            'tipe' => $request->tipe,
+            'showpdf' => $request->showpdf,
         ]);
 
         // Handle file upload
@@ -89,9 +93,11 @@ class SuratController extends Controller
             'tanggal_surat' => 'required|date',
             'kepada' => 'required|string|max:255',
             'pdf_file' => 'nullable|file|mimes:pdf|max:2048',
+            'tipe' => 'in:surat keluar,surat internal',
+            'showpdf' => 'boolean',
         ]);
 
-        $surat->update($request->only('nomor_surat', 'nama_surat', 'tanggal_surat', 'kepada'));
+        $surat->update($request->only('nomor_surat', 'nama_surat', 'tanggal_surat', 'kepada', 'tipe', 'showpdf'));
 
         if ($request->hasFile('pdf_file')) {
             // Delete old file if it exists
