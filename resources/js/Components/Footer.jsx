@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="flex justify-center border-b">
                 <div className="mx-5 flex w-full max-w-screen-xl justify-center border-x px-4 py-8 md:px-14">
                     <div className="text-sm">
-                        Dibuat oleh{" "}
+                        Dibuat
                         <a
                             href="http://danarx.com/"
                             target="_blank"

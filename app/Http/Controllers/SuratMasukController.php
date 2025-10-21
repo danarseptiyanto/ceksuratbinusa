@@ -16,7 +16,7 @@ class SuratMasukController extends Controller
             return redirect()->route('dashboard')->with('error', 'Please select an academic year.');
         }
 
-        $suratMasuks = SuratMasuk::where('tahun_ajaran_id', $activeTahunAjaranId)
+        $suratMasuks = SuratMasuk::with('user')->where('tahun_ajaran_id', $activeTahunAjaranId)
             ->orderBy('id', 'desc')
             ->get();
 

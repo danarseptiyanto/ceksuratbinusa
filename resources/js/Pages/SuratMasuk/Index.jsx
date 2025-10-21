@@ -309,6 +309,9 @@ export default function Index({ suratMasuks }) {
                             <TableHead className="whitespace-nowrap border-r">
                                 Pengirim
                             </TableHead>
+                            <TableHead className="text-nowrap border-r">
+                                Dientri
+                            </TableHead>
                             <TableHead className="w-[150px] text-nowrap border-r">
                                 Tanggal Surat
                             </TableHead>
@@ -338,6 +341,9 @@ export default function Index({ suratMasuks }) {
                                     </TableCell>
                                     <TableCell className="whitespace-nowrap border-r">
                                         {surat.asal_surat}
+                                    </TableCell>
+                                    <TableCell className="whitespace-nowrap border-r">
+                                        {surat.user.name}
                                     </TableCell>
                                     <TableCell className="text-nowrap border-r">
                                         {new Date(
@@ -425,7 +431,7 @@ export default function Index({ suratMasuks }) {
                         ) : (
                             <TableRow>
                                 <TableCell
-                                    colSpan="7"
+                                    colSpan="8"
                                     className="h-24 text-center"
                                 >
                                     Tidak ada data ditemukan.

@@ -2,6 +2,11 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import QRDownload from "./QRdownload";
 import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import {
     Calendar as CalendarIcon,
     Loader2,
     MoreHorizontal,
@@ -10,6 +15,13 @@ import {
     CircleAlert,
     Search,
     CirclePlus,
+    FileDigit,
+    FileType2,
+    UserPen,
+    CalendarCheck,
+    UploadCloud,
+    Eye,
+    Send,
 } from "lucide-react";
 import {
     Dialog,
@@ -55,6 +67,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/Components/ui/badge";
 
 export default function Index({ surats }) {
     const { delete: destroy } = useForm();
@@ -173,6 +186,9 @@ export default function Index({ surats }) {
                                 Perihal
                             </TableHead>
                             <TableHead className="text-nowrap border-r">
+                                Jenis
+                            </TableHead>
+                            <TableHead className="text-nowrap border-r">
                                 Tanggal
                             </TableHead>
                             <TableHead className="text-nowrap border-r px-0 text-center">
@@ -192,10 +208,104 @@ export default function Index({ surats }) {
                                         {index + 1}
                                     </TableCell>
                                     <TableCell className="border-r">
-                                        {surat.nomor_surat}
+                                        <HoverCard>
+                                            <HoverCardTrigger>
+                                                <Badge className="h-6 cursor-pointer font-medium">
+                                                    {surat.nomor_surat}
+                                                </Badge>
+                                            </HoverCardTrigger>
+                                            <HoverCardContent>
+                                                <ul className="flex flex-col gap-3">
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <FileDigit
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {surat.nomor_surat}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2 capitalize">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <FileType2
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {surat.tipe}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2 capitalize">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <Send size={14} />
+                                                        </div>
+                                                        {surat.kepada}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <UserPen
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {surat.user.name}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <CalendarCheck
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {new Date(
+                                                            surat.tanggal_surat,
+                                                        ).toLocaleDateString(
+                                                            "id-ID",
+                                                            {
+                                                                day: "numeric",
+                                                                month: "long",
+                                                                year: "numeric",
+                                                            },
+                                                        )}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <UploadCloud
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {surat.file_path ? (
+                                                            <div>
+                                                                PDF Sudah
+                                                                Diupload
+                                                            </div>
+                                                        ) : (
+                                                            <div>
+                                                                PDF Belum
+                                                                Diupload
+                                                            </div>
+                                                        )}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <Eye size={14} />
+                                                        </div>
+                                                        {surat.showpdf ? (
+                                                            <div>
+                                                                PDF Boleh
+                                                                Diakses
+                                                            </div>
+                                                        ) : (
+                                                            <div>
+                                                                PDF Tidak Boleh
+                                                                Diakses
+                                                            </div>
+                                                        )}
+                                                    </li>
+                                                </ul>
+                                            </HoverCardContent>
+                                        </HoverCard>
                                     </TableCell>
                                     <TableCell className="border-r">
                                         {surat.nama_surat}
+                                    </TableCell>
+                                    <TableCell className="whitespace-nowrap border-r capitalize">
+                                        {surat.tipe}
                                     </TableCell>
                                     <TableCell className="whitespace-nowrap">
                                         <span className="flex items-center gap-2">
@@ -303,7 +413,7 @@ export default function Index({ surats }) {
                             <TableRow>
                                 {/* Updated colSpan to account for the new column */}
                                 <TableCell
-                                    colSpan="6"
+                                    colSpan="7"
                                     className="h-24 text-center"
                                 >
                                     Tidak ada data ditemukan.

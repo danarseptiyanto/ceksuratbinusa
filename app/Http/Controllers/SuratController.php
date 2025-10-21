@@ -24,7 +24,7 @@ class SuratController extends Controller
             return redirect()->route('dashboard')->with('error', 'Please select an academic year.');
         }
 
-        $surats = Surat::where('tahun_ajaran_id', $activeTahunAjaranId)
+        $surats = Surat::with('user')->where('tahun_ajaran_id', $activeTahunAjaranId)
             ->orderBy('id', 'desc')
             ->get(); // Using pagination
 
