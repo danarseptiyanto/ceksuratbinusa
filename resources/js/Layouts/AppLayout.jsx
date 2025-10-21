@@ -1,14 +1,4 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { CalendarClock } from "lucide-react";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -42,7 +32,7 @@ export default function AppLayout({
         <>
             <Head title={title} />
             <SidebarProvider>
-                <AppSidebar />
+                <AppSidebar all_tahun_ajaran={all_tahun_ajaran} active_tahun_ajaran={active_tahun_ajaran} />
                 <SidebarInset>
                     <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b">
                         <div className="flex items-center gap-2 px-4">
@@ -63,37 +53,7 @@ export default function AppLayout({
                                 </BreadcrumbList>
                             </Breadcrumb>
                         </div>
-                        <div className="px-4">
-                            {all_tahun_ajaran && (
-                                <Select
-                                    value={active_tahun_ajaran?.id || ""}
-                                    onValueChange={handleTahunAjaranChange}
-                                >
-                                    <SelectTrigger className="w-[150px]">
-                                        <CalendarClock
-                                            size={15}
-                                            className="-mr-1 text-muted-foreground"
-                                        />
-                                        <SelectValue placeholder="Select a fruit" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectLabel>
-                                                Tahun Ajaran
-                                            </SelectLabel>
-                                            {all_tahun_ajaran.map((ta) => (
-                                                <SelectItem
-                                                    key={ta.id}
-                                                    value={ta.id}
-                                                >
-                                                    {ta.tahun}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            )}
-                        </div>
+
                     </header>
                     <div className="flex flex-1 flex-col gap-4 p-5 pt-0">
                         <main>

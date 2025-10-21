@@ -49,6 +49,15 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 const data = {
     user: {
@@ -70,7 +79,10 @@ const data = {
     ],
 };
 
-export function AppSidebar({ ...props }) {
+export function AppSidebar({ all_tahun_ajaran, active_tahun_ajaran, ...props }) {
+    const handleTahunAjaranChange = (newTahunAjaranId) => {
+        window.location.href = route("tahun-ajaran.switch", newTahunAjaranId);
+    };
     return (
         <Sidebar variant="inset" {...props}>
             <SidebarHeader>
@@ -222,6 +234,37 @@ export function AppSidebar({ ...props }) {
                         </div>
                     </div>
                 </Card>
+                {all_tahun_ajaran && (
+                    <div className="mx-3 mb-3">
+                        <Select
+                            value={active_tahun_ajaran?.id || ""}
+                            onValueChange={handleTahunAjaranChange}
+                        >
+                            <SelectTrigger className="w-full">
+                                <CalendarClock
+                                    size={15}
+                                    className="-mr-1 text-muted-foreground"
+                                />
+                                <SelectValue placeholder="Pilih Tahun Ajaran" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>
+                                        Tahun Ajaran
+                                    </SelectLabel>
+                                    {all_tahun_ajaran.map((ta) => (
+                                        <SelectItem
+                                            key={ta.id}
+                                            value={ta.id}
+                                        >
+                                            {ta.tahun}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                )}
             </SidebarContent>
             <SidebarFooter>
                 <NavUser />
