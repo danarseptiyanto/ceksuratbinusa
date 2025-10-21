@@ -33,6 +33,12 @@ import {
     Search,
     CalendarIcon,
     Loader2, // Added for loading spinner
+    FileDigit,
+    FileType2,
+    Send,
+    UserPen,
+    CalendarCheck,
+    UploadCloud,
 } from "lucide-react";
 import { format } from "date-fns";
 import {
@@ -47,6 +53,12 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { Badge } from "@/Components/ui/badge";
 
 export default function Index({ suratMasuks }) {
     const { delete: destroy } = useForm();
@@ -117,7 +129,7 @@ export default function Index({ suratMasuks }) {
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
                         <Button variant="default">
-                            <CirclePlus className="mr-2 h-4 w-4" /> Tambah
+                            <CirclePlus className="h-4 w-4" /> Tambah
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[725px]">
@@ -309,9 +321,6 @@ export default function Index({ suratMasuks }) {
                             <TableHead className="whitespace-nowrap border-r">
                                 Pengirim
                             </TableHead>
-                            <TableHead className="text-nowrap border-r">
-                                Dientri
-                            </TableHead>
                             <TableHead className="w-[150px] text-nowrap border-r">
                                 Tanggal Surat
                             </TableHead>
@@ -334,16 +343,88 @@ export default function Index({ suratMasuks }) {
                                         {index + 1}
                                     </TableCell>
                                     <TableCell className="border-r">
-                                        {surat.nomor_surat}
+                                        <HoverCard>
+                                            <HoverCardTrigger>
+                                                <Badge className="h-6 cursor-pointer font-medium">
+                                                    {surat.nomor_surat}
+                                                </Badge>
+                                            </HoverCardTrigger>
+                                            <HoverCardContent>
+                                                <ul className="flex flex-col gap-3">
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <FileDigit
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {surat.nomor_surat}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <FileType2
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {surat.nama_surat}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <Send size={14} />
+                                                        </div>
+                                                        {surat.asal_surat}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <UserPen
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {surat.user.name}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <CalendarCheck
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {new Date(
+                                                            surat.tanggal_surat,
+                                                        ).toLocaleDateString(
+                                                            "id-ID",
+                                                            {
+                                                                day: "numeric",
+                                                                month: "long",
+                                                                year: "numeric",
+                                                            },
+                                                        )}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <UploadCloud
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {surat.file_path ? (
+                                                            <div>
+                                                                File Sudah
+                                                                Diupload
+                                                            </div>
+                                                        ) : (
+                                                            <div>
+                                                                File Belum
+                                                                Diupload
+                                                            </div>
+                                                        )}
+                                                    </li>
+                                                </ul>
+                                            </HoverCardContent>
+                                        </HoverCard>
                                     </TableCell>
                                     <TableCell className="border-r">
                                         {surat.nama_surat}
                                     </TableCell>
                                     <TableCell className="whitespace-nowrap border-r">
                                         {surat.asal_surat}
-                                    </TableCell>
-                                    <TableCell className="whitespace-nowrap border-r">
-                                        {surat.user.name}
                                     </TableCell>
                                     <TableCell className="text-nowrap border-r">
                                         {new Date(
