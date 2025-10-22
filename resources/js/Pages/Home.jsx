@@ -4,6 +4,7 @@ import {
     BadgeQuestionMark,
     FileType,
     HandHelping,
+    InfoIcon,
     Loader2,
     QrCode,
     ShieldAlert,
@@ -158,7 +159,17 @@ export default function Home() {
                                     </span>
                                 </div>
                             </Card>
-                            {/* <Card className="hidden w-96 border-none bg-primary p-4 shadow-none lg:block"></Card> */}
+                            <Card className="hidden w-96 flex-col justify-center border-none bg-primary p-5 shadow-none lg:flex">
+                                <InfoIcon
+                                    size={30}
+                                    className="-mt-2 text-white/40"
+                                />
+                                <h4 className="mt-2 text-sm text-white">
+                                    Nomor surat dapat ditemukan pada bagian atas
+                                    surat keluar yang diterbitkan oleh SMK Bina
+                                    Nusantara Semarang.
+                                </h4>
+                            </Card>
                         </div>
                         {errors.nomor_surat && (
                             <Alert variant="destructive" className="mt-5">
