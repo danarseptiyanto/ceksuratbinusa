@@ -72,6 +72,7 @@ import { Badge } from "@/Components/ui/badge";
 export default function Index({ surats }) {
     const { delete: destroy } = useForm();
     const [searchTerm, setSearchTerm] = useState("");
+    const [filterType, setFilterType] = useState("all");
     const [open, setOpen] = useState(false);
     const { url } = usePage();
     const hasOpened = useRef(false); // 🧠 guard
@@ -127,17 +128,23 @@ export default function Index({ surats }) {
     }
 
     const filteredSurats = useMemo(() => {
-        if (!searchTerm) return surats;
-        return surats.filter(
-            (surat) =>
-                surat.nomor_surat
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase()) ||
-                surat.nama_surat
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase()),
-        );
-    }, [surats, searchTerm]);
+        let filtered = surats;
+        if (searchTerm) {
+            filtered = filtered.filter(
+                (surat) =>
+                    surat.nomor_surat
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase()) ||
+                    surat.nama_surat
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase()),
+            );
+        }
+        if (filterType !== "all") {
+            filtered = filtered.filter((surat) => surat.tipe === filterType);
+        }
+        return filtered;
+    }, [surats, searchTerm, filterType]);
     function handleDelete(e, suratId) {
         e.preventDefault();
         if (confirm("Are you sure you want to delete this item?")) {
@@ -157,15 +164,34 @@ export default function Index({ surats }) {
                 </p>
             </div>
             <div className="mb-4 mt-5 flex items-center justify-between">
-                <div className="relative w-72">
-                    <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                        type="text"
-                        placeholder="Cari nomor dan perihal surat..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-8"
-                    />
+                <div className="flex items-center gap-2">
+                    <div className="relative w-72">
+                        <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                            type="text"
+                            placeholder="Cari nomor dan perihal surat..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-8"
+                        />
+                    </div>
+                    <Select value={filterType} onValueChange={setFilterType}>
+                        <SelectTrigger className="relative w-44">
+                            <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                            <div className="pl-6">
+                                <SelectValue placeholder="Filter by type" />
+                            </div>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All</SelectItem>
+                            <SelectItem value="surat keluar">
+                                Surat Keluar
+                            </SelectItem>
+                            <SelectItem value="surat internal">
+                                Surat Internal
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
                 <Button variant="default" onClick={() => setOpen(true)}>
                     <CirclePlus /> Tambah

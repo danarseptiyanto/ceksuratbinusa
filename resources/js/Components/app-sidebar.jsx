@@ -152,7 +152,7 @@ export function AppSidebar({
                     <SidebarMenu>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <Link href={route("dashboard.index")}>
+                                <Link href={route("dashboard")}>
                                     <LayoutGrid />
                                     <span>Dashboard</span>
                                 </Link>
@@ -168,7 +168,7 @@ export function AppSidebar({
                         </SidebarMenuItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <Link href={route("surat-masuk.index")}>
+                                <Link href={route("surat.index")}>
                                     <FileCheck />
                                     <span>Surat Internal</span>
                                 </Link>
@@ -211,14 +211,14 @@ export function AppSidebar({
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
-                        <SidebarMenuItem>
+                        {/* <SidebarMenuItem>
                             <SidebarMenuButton asChild>
                                 <Link href="#">
                                     <FileQuestionMark />
                                     <span>Dokumentasi</span>
                                 </Link>
                             </SidebarMenuButton>
-                        </SidebarMenuItem>
+                        </SidebarMenuItem> */}
                     </SidebarMenu>
                 </SidebarGroup>
                 {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}

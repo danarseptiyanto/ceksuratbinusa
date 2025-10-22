@@ -39,7 +39,7 @@ Route::get('/tahun-ajaran/switch/{id}', [TahunAjaranController::class, 'switch']
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('surat', SuratController::class);
     Route::resource('tahun-ajaran', TahunAjaranController::class);
     Route::delete('/surat/{surat}/delete-file', [SuratController::class, 'deleteFile'])->name('surat.deleteFile');
