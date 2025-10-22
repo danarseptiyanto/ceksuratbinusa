@@ -12,6 +12,7 @@ import {
     FileType,
     FileType2,
     Frame,
+    LayoutGrid,
     LifeBuoy,
     Map,
     PieChart,
@@ -149,6 +150,14 @@ export function AppSidebar({
                 <SidebarGroup className="-mt-2">
                     <SidebarGroupLabel>Surat</SidebarGroupLabel>
                     <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild>
+                                <Link href={route("dashboard.index")}>
+                                    <LayoutGrid />
+                                    <span>Dashboard</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
                                 <Link href={route("surat.index")}>
