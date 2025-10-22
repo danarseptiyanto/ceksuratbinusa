@@ -19,6 +19,12 @@ class Surat extends Model
         'tanggal_surat',
         'file_path',
         'slug',
+        'tipe',
+        'showpdf',
+    ];
+
+    protected $casts = [
+        'showpdf' => 'boolean',
     ];
 
     // Automatically generate slug when saving

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->date('tanggal_surat');
             $table->string('file_path')->nullable();
             $table->string('slug')->unique();
+            $table->enum('tipe', ['surat keluar', 'surat internal']);
+            $table->boolean('showpdf')->default(true);
             $table->timestamps();
         });
     }

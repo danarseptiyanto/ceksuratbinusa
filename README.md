@@ -1,61 +1,190 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Manajemen Surat Binusa
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Deskripsi Aplikasi
 
-## About Laravel
+Sistem Manajemen Surat Binusa adalah aplikasi web yang dirancang khusus untuk mengelola berbagai jenis surat di lingkungan sekolah SMK Binusa. Aplikasi ini memungkinkan pengguna untuk membuat, mengelola, dan melacak surat keluar, surat internal, serta surat masuk dengan mudah dan efisien. Sistem ini juga terintegrasi dengan sistem tahun ajaran untuk memastikan semua data surat terorganisir berdasarkan periode akademik yang relevan.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Dashboard Interaktif**: Menampilkan statistik real-time jumlah surat berdasarkan jenis dan tahun ajaran aktif.
+- **Manajemen Surat Keluar**: Buat, edit, dan hapus surat keluar dengan fitur upload PDF dan QR code untuk verifikasi.
+- **Manajemen Surat Internal**: Kelola surat internal dengan kemampuan yang sama seperti surat keluar.
+- **Manajemen Surat Masuk**: Arsipkan dan kelola surat masuk yang diterima sekolah.
+- **Filter dan Pencarian**: Cari surat berdasarkan nomor atau perihal, serta filter berdasarkan jenis surat.
+- **Sistem Tahun Ajaran**: Semua data surat terhubung dengan tahun ajaran untuk organisasi yang lebih baik.
+- **Autentikasi Pengguna**: Sistem login dan manajemen pengguna dengan Laravel Breeze.
+- **Responsive Design**: Antarmuka yang responsif menggunakan Tailwind CSS dan komponen Shadcn/ui.
+- **Verifikasi Surat**: Link verifikasi untuk memastikan keaslian surat melalui QR code.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Teknologi yang Digunakan
 
-## Learning Laravel
+- **Backend**: Laravel 12 (PHP Framework)
+- **Frontend**: React dengan Inertia.js
+- **Database**: MySQL (dapat dikonfigurasi untuk database lain)
+- **Styling**: Tailwind CSS
+- **UI Components**: Shadcn/ui
+- **Authentication**: Laravel Breeze
+- **File Storage**: Laravel Storage untuk upload PDF
+- **QR Code Generation**: Library untuk generate QR code
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Persyaratan Sistem
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- PHP 8.2 atau lebih tinggi
+- Composer
+- Node.js 18+ dan npm
+- MySQL 8.0 atau MariaDB
+- Git
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Cara Mengkloning dan Menjalankan Aplikasi
 
-## Laravel Sponsors
+### Langkah 1: Kloning Repository
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Buka terminal atau command prompt, lalu navigasikan ke direktori tempat Anda ingin menyimpan proyek. Jalankan perintah berikut untuk mengkloning repository dari GitHub:
 
-### Premium Partners
+```bash
+git clone https://github.com/username/ceksuratbinusa.git
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Ganti `username` dengan nama pengguna GitHub yang sesuai jika repository berada di akun berbeda.
 
-## Contributing
+### Langkah 2: Masuk ke Direktori Proyek
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Setelah cloning selesai, masuk ke direktori proyek:
 
-## Code of Conduct
+```bash
+cd ceksuratbinusa
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Langkah 3: Instal Dependensi PHP
 
-## Security Vulnerabilities
+Instal semua dependensi PHP menggunakan Composer:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+composer install
+```
 
-## License
+Perintah ini akan mengunduh dan menginstal semua paket PHP yang diperlukan seperti Laravel dan library lainnya.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Langkah 4: Instal Dependensi JavaScript
+
+Instal dependensi frontend menggunakan npm:
+
+```bash
+npm install
+```
+
+### Langkah 5: Konfigurasi Environment
+
+Salin file environment example dan sesuaikan konfigurasi:
+
+```bash
+cp .env.example .env
+```
+
+Buka file `.env` dengan editor teks dan sesuaikan pengaturan berikut:
+
+- **Database Configuration**:
+  ```
+  DB_CONNECTION=mysql
+  DB_HOST=127.0.0.1
+  DB_PORT=3306
+  DB_DATABASE=ceksuratbinusa
+  DB_USERNAME=your_username
+  DB_PASSWORD=your_password
+  ```
+
+- **App Configuration**:
+  ```
+  APP_NAME="Sistem Manajemen Surat Binusa"
+  APP_ENV=local
+  APP_KEY=base64:your_app_key_here
+  APP_DEBUG=true
+  APP_URL=http://localhost:8000
+  ```
+
+### Langkah 6: Generate Application Key
+
+Generate key aplikasi Laravel:
+
+```bash
+php artisan key:generate
+```
+
+### Langkah 7: Migrasi Database
+
+Jalankan migrasi untuk membuat tabel database:
+
+```bash
+php artisan migrate
+```
+
+Jika Anda ingin mengisi database dengan data dummy (opsional):
+
+```bash
+php artisan db:seed
+```
+
+### Langkah 8: Build Assets Frontend
+
+Compile dan build assets frontend:
+
+```bash
+npm run build
+```
+
+Atau untuk development dengan hot reload:
+
+```bash
+npm run dev
+```
+
+### Langkah 9: Jalankan Server
+
+Jalankan server Laravel:
+
+```bash
+php artisan serve
+```
+
+Aplikasi akan berjalan di `http://localhost:8000`.
+
+### Langkah 10: Akses Aplikasi
+
+Buka browser dan kunjungi `http://localhost:8000`. Anda akan diarahkan ke halaman login. Jika belum ada akun, Anda dapat mendaftar atau menggunakan data seed jika tersedia.
+
+## Struktur Database
+
+Aplikasi ini menggunakan beberapa tabel utama:
+
+- `users`: Menyimpan data pengguna
+- `surats`: Menyimpan data surat keluar dan internal
+- `surat_masuks`: Menyimpan data surat masuk
+- `tahun_ajarans`: Menyimpan data tahun ajaran
+
+## Penggunaan Aplikasi
+
+1. **Login/Register**: Masuk atau daftar akun baru.
+2. **Dashboard**: Lihat statistik surat dan akses menu utama.
+3. **Surat Keluar**: Kelola surat keluar dengan fitur CRUD lengkap.
+4. **Surat Internal**: Kelola surat internal.
+5. **Surat Masuk**: Kelola surat masuk.
+6. **Tahun Ajaran**: Kelola periode tahun ajaran (jika diperlukan).
+
+## Troubleshooting
+
+- **Error Database Connection**: Pastikan konfigurasi database di `.env` sudah benar dan database sudah dibuat.
+- **Assets Tidak Load**: Jalankan `npm run build` atau `npm run dev` untuk compile assets.
+- **Permission Issues**: Pastikan direktori `storage` dan `bootstrap/cache` memiliki permission write.
+- **Port Conflict**: Jika port 8000 sudah digunakan, gunakan `php artisan serve --port=8080`.
+
+## Kontribusi
+
+Jika Anda ingin berkontribusi pada pengembangan aplikasi ini, silakan fork repository dan buat pull request dengan perubahan Anda.
+
+## Lisensi
+
+Aplikasi ini menggunakan lisensi MIT. Lihat file LICENSE untuk detail lebih lanjut.
+
+## Dukungan
+
+Jika Anda mengalami masalah atau memiliki pertanyaan, silakan buat issue di repository GitHub ini.

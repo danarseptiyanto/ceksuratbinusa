@@ -12,6 +12,7 @@ import {
     FileType,
     FileType2,
     Frame,
+    LayoutGrid,
     LifeBuoy,
     Map,
     PieChart,
@@ -49,6 +50,15 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 const data = {
     user: {
@@ -70,7 +80,14 @@ const data = {
     ],
 };
 
-export function AppSidebar({ ...props }) {
+export function AppSidebar({
+    all_tahun_ajaran,
+    active_tahun_ajaran,
+    ...props
+}) {
+    const handleTahunAjaranChange = (newTahunAjaranId) => {
+        window.location.href = route("tahun-ajaran.switch", newTahunAjaranId);
+    };
     return (
         <Sidebar variant="inset" {...props}>
             <SidebarHeader>
@@ -135,6 +152,14 @@ export function AppSidebar({ ...props }) {
                     <SidebarMenu>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
+                                <Link href={route("dashboard")}>
+                                    <LayoutGrid />
+                                    <span>Dashboard</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild>
                                 <Link href={route("surat.index")}>
                                     <FileOutput />
                                     <span>Surat Keluar</span>
@@ -143,7 +168,7 @@ export function AppSidebar({ ...props }) {
                         </SidebarMenuItem>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <Link href={route("surat-masuk.index")}>
+                                <Link href={route("surat.index")}>
                                     <FileCheck />
                                     <span>Surat Internal</span>
                                 </Link>
@@ -186,18 +211,18 @@ export function AppSidebar({ ...props }) {
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
-                        <SidebarMenuItem>
+                        {/* <SidebarMenuItem>
                             <SidebarMenuButton asChild>
                                 <Link href="#">
                                     <FileQuestionMark />
                                     <span>Dokumentasi</span>
                                 </Link>
                             </SidebarMenuButton>
-                        </SidebarMenuItem>
+                        </SidebarMenuItem> */}
                     </SidebarMenu>
                 </SidebarGroup>
                 {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
-                <Card className="mx-3 mb-0 mt-auto hidden py-3 shadow-none md:block">
+                <Card className="mx-3 mb-0.5 mt-auto hidden py-3 shadow-none md:block">
                     <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1 px-3">
                         <div className="text-sm font-semibold leading-tight">
                             Welcome!
@@ -222,6 +247,32 @@ export function AppSidebar({ ...props }) {
                         </div>
                     </div>
                 </Card>
+                {all_tahun_ajaran && (
+                    <div className="mx-3 mb-3">
+                        <Select
+                            value={active_tahun_ajaran?.id || ""}
+                            onValueChange={handleTahunAjaranChange}
+                        >
+                            <SelectTrigger className="w-full">
+                                <CalendarClock
+                                    size={15}
+                                    className="-mr-1 text-muted-foreground"
+                                />
+                                <SelectValue placeholder="Pilih Tahun Ajaran" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Tahun Ajaran</SelectLabel>
+                                    {all_tahun_ajaran.map((ta) => (
+                                        <SelectItem key={ta.id} value={ta.id}>
+                                            {ta.tahun}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                )}
             </SidebarContent>
             <SidebarFooter>
                 <NavUser />

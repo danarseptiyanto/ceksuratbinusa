@@ -2,6 +2,11 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import QRDownload from "./QRdownload";
 import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import {
     Calendar as CalendarIcon,
     Loader2,
     MoreHorizontal,
@@ -10,6 +15,13 @@ import {
     CircleAlert,
     Search,
     CirclePlus,
+    FileDigit,
+    FileType2,
+    UserPen,
+    CalendarCheck,
+    UploadCloud,
+    Eye,
+    Send,
 } from "lucide-react";
 import {
     Dialog,
@@ -20,6 +32,14 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -47,10 +67,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/Components/ui/badge";
 
 export default function Index({ surats }) {
     const { delete: destroy } = useForm();
     const [searchTerm, setSearchTerm] = useState("");
+    const [filterType, setFilterType] = useState("all");
     const [open, setOpen] = useState(false);
     const { url } = usePage();
     const hasOpened = useRef(false); // 🧠 guard
@@ -91,6 +113,8 @@ export default function Index({ surats }) {
         kepada: "",
         tanggal_surat: today.toISOString().slice(0, 10),
         pdf_file: null,
+        tipe: "surat internal",
+        showpdf: true,
     });
 
     function submit(e) {
@@ -104,17 +128,23 @@ export default function Index({ surats }) {
     }
 
     const filteredSurats = useMemo(() => {
-        if (!searchTerm) return surats;
-        return surats.filter(
-            (surat) =>
-                surat.nomor_surat
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase()) ||
-                surat.nama_surat
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase()),
-        );
-    }, [surats, searchTerm]);
+        let filtered = surats;
+        if (searchTerm) {
+            filtered = filtered.filter(
+                (surat) =>
+                    surat.nomor_surat
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase()) ||
+                    surat.nama_surat
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase()),
+            );
+        }
+        if (filterType !== "all") {
+            filtered = filtered.filter((surat) => surat.tipe === filterType);
+        }
+        return filtered;
+    }, [surats, searchTerm, filterType]);
     function handleDelete(e, suratId) {
         e.preventDefault();
         if (confirm("Are you sure you want to delete this item?")) {
@@ -134,15 +164,34 @@ export default function Index({ surats }) {
                 </p>
             </div>
             <div className="mb-4 mt-5 flex items-center justify-between">
-                <div className="relative w-72">
-                    <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                        type="text"
-                        placeholder="Cari nomor dan perihal surat..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-8"
-                    />
+                <div className="flex items-center gap-2">
+                    <div className="relative w-72">
+                        <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                            type="text"
+                            placeholder="Cari nomor dan perihal surat..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-8"
+                        />
+                    </div>
+                    <Select value={filterType} onValueChange={setFilterType}>
+                        <SelectTrigger className="relative w-44">
+                            <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                            <div className="pl-6">
+                                <SelectValue placeholder="Filter by type" />
+                            </div>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All</SelectItem>
+                            <SelectItem value="surat keluar">
+                                Surat Keluar
+                            </SelectItem>
+                            <SelectItem value="surat internal">
+                                Surat Internal
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
                 <Button variant="default" onClick={() => setOpen(true)}>
                     <CirclePlus /> Tambah
@@ -161,6 +210,9 @@ export default function Index({ surats }) {
                             </TableHead>
                             <TableHead className="w-full border-r">
                                 Perihal
+                            </TableHead>
+                            <TableHead className="text-nowrap border-r">
+                                Jenis
                             </TableHead>
                             <TableHead className="text-nowrap border-r">
                                 Tanggal
@@ -182,10 +234,104 @@ export default function Index({ surats }) {
                                         {index + 1}
                                     </TableCell>
                                     <TableCell className="border-r">
-                                        {surat.nomor_surat}
+                                        <HoverCard>
+                                            <HoverCardTrigger>
+                                                <Badge className="h-6 cursor-pointer font-medium">
+                                                    {surat.nomor_surat}
+                                                </Badge>
+                                            </HoverCardTrigger>
+                                            <HoverCardContent>
+                                                <ul className="flex flex-col gap-3">
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <FileDigit
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {surat.nomor_surat}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2 capitalize">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <FileType2
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {surat.tipe}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2 capitalize">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <Send size={14} />
+                                                        </div>
+                                                        {surat.kepada}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <UserPen
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {surat.user.name}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <CalendarCheck
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {new Date(
+                                                            surat.tanggal_surat,
+                                                        ).toLocaleDateString(
+                                                            "id-ID",
+                                                            {
+                                                                day: "numeric",
+                                                                month: "long",
+                                                                year: "numeric",
+                                                            },
+                                                        )}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <UploadCloud
+                                                                size={14}
+                                                            />
+                                                        </div>
+                                                        {surat.file_path ? (
+                                                            <div>
+                                                                PDF Sudah
+                                                                Diupload
+                                                            </div>
+                                                        ) : (
+                                                            <div>
+                                                                PDF Belum
+                                                                Diupload
+                                                            </div>
+                                                        )}
+                                                    </li>
+                                                    <li className="inline-flex items-center gap-2">
+                                                        <div className="flex h-6 w-6 items-center justify-center rounded-full border bg-muted">
+                                                            <Eye size={14} />
+                                                        </div>
+                                                        {surat.showpdf ? (
+                                                            <div>
+                                                                PDF Boleh
+                                                                Diakses
+                                                            </div>
+                                                        ) : (
+                                                            <div>
+                                                                PDF Tidak Boleh
+                                                                Diakses
+                                                            </div>
+                                                        )}
+                                                    </li>
+                                                </ul>
+                                            </HoverCardContent>
+                                        </HoverCard>
                                     </TableCell>
                                     <TableCell className="border-r">
                                         {surat.nama_surat}
+                                    </TableCell>
+                                    <TableCell className="whitespace-nowrap border-r capitalize">
+                                        {surat.tipe}
                                     </TableCell>
                                     <TableCell className="whitespace-nowrap">
                                         <span className="flex items-center gap-2">
@@ -293,7 +439,7 @@ export default function Index({ surats }) {
                             <TableRow>
                                 {/* Updated colSpan to account for the new column */}
                                 <TableCell
-                                    colSpan="6"
+                                    colSpan="7"
                                     className="h-24 text-center"
                                 >
                                     Tidak ada data ditemukan.
@@ -438,6 +584,58 @@ export default function Index({ surats }) {
                                     {errors.pdf_file}
                                 </p>
                             )}
+                        </div>
+
+                        {/* Tipe and Show PDF */}
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div className="space-y-2">
+                                <Label htmlFor="tipe">Tipe Surat</Label>
+                                <Select
+                                    value={data.tipe}
+                                    onValueChange={(value) =>
+                                        setData("tipe", value)
+                                    }
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Pilih tipe surat" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="surat keluar">
+                                            Surat Keluar
+                                        </SelectItem>
+                                        <SelectItem value="surat internal">
+                                            Surat Internal
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                {errors.tipe && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.tipe}
+                                    </p>
+                                )}
+                            </div>
+                            <div className="space-y-2 pt-8">
+                                <div className="flex items-center space-x-2">
+                                    <Checkbox
+                                        id="showpdf"
+                                        checked={data.showpdf}
+                                        onCheckedChange={(value) =>
+                                            setData("showpdf", value)
+                                        }
+                                    />
+                                    <label
+                                        htmlFor="showpdf"
+                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                    >
+                                        Tampilkan PDF
+                                    </label>
+                                </div>
+                                {errors.showpdf && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.showpdf}
+                                    </p>
+                                )}
+                            </div>
                         </div>
 
                         <DialogFooter>

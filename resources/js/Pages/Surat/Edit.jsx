@@ -17,6 +17,14 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "../../Components/ui/popover";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "../../Components/ui/select";
+import { Checkbox } from "../../Components/ui/checkbox";
 import { cn } from "../../lib/utils";
 export default function Edit({ surat }) {
     const { data, setData, post, errors, processing } = useForm({
@@ -26,6 +34,8 @@ export default function Edit({ surat }) {
         nama_surat: surat.nama_surat || "",
         tanggal_surat: surat.tanggal_surat || "",
         pdf_file: null,
+        tipe: surat.tipe || "",
+        showpdf: surat.showpdf ?? true,
     });
     function submit(e) {
         e.preventDefault();
@@ -235,6 +245,58 @@ export default function Edit({ surat }) {
                                             {errors.pdf_file}
                                         </p>
                                     )}
+                                </div>
+
+                                {/* Tipe and Show PDF */}
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="tipe">Tipe Surat</Label>
+                                        <Select
+                                            value={data.tipe}
+                                            onValueChange={(value) =>
+                                                setData("tipe", value)
+                                            }
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Pilih tipe surat" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="surat keluar">
+                                                    Surat Keluar
+                                                </SelectItem>
+                                                <SelectItem value="surat internal">
+                                                    Surat Internal
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        {errors.tipe && (
+                                            <p className="text-sm text-destructive">
+                                                {errors.tipe}
+                                            </p>
+                                        )}
+                                    </div>
+                                    <div className="space-y-2 pt-8">
+                                        <div className="flex items-center space-x-2">
+                                            <Checkbox
+                                                id="showpdf"
+                                                checked={data.showpdf}
+                                                onCheckedChange={(value) =>
+                                                    setData("showpdf", value)
+                                                }
+                                            />
+                                            <label
+                                                htmlFor="showpdf"
+                                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                            >
+                                                Tampilkan PDF
+                                            </label>
+                                        </div>
+                                        {errors.showpdf && (
+                                            <p className="text-sm text-destructive">
+                                                {errors.showpdf}
+                                            </p>
+                                        )}
+                                    </div>
                                 </div>
                             </CardContent>
                             <CardFooter className="flex justify-end gap-2 rounded-b-lg border-t bg-muted pt-5">
