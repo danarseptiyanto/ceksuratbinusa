@@ -44,6 +44,7 @@ class VerificationController extends Controller
                 'tanggal_surat' => Carbon::parse($surat->tanggal_surat)->translatedFormat('d F Y'),
                 // Provide a direct, usable URL for the file if it exists
                 'file_url' => $surat->file_path ? Storage::url($surat->file_path) : null,
+                'showpdf' => (bool) $surat->showpdf,
             ],
             // Pass the URL to be encoded into the QR code on the frontend
             'verificationUrl' => route('surat.verify', $surat->slug),
