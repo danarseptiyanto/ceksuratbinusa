@@ -30,9 +30,13 @@ export default function Login({ status, canResetPassword }) {
                             className="flex items-center gap-2 font-medium"
                         >
                             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                                <Bot className="size-4" />
+                                <img
+                                    src="/img/logosekolah.png"
+                                    className="p-1.5"
+                                    alt="BN"
+                                />
                             </div>
-                            Danar&Co.
+                            SMK Bina Nusantara
                         </a>
                     </div>
                     <div className="flex flex-1 items-center justify-center">
