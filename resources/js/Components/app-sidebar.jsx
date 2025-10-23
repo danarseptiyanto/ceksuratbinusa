@@ -222,7 +222,7 @@ export function AppSidebar({
                     </SidebarMenu>
                 </SidebarGroup>
                 {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
-                <Card className="mx-3 mb-0.5 mt-auto hidden py-3 shadow-none md:block">
+                {/* <Card className="mx-3 mb-0.5 mt-auto hidden py-3 shadow-none md:block">
                     <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1 px-3">
                         <div className="text-sm font-semibold leading-tight">
                             Welcome!
@@ -246,9 +246,9 @@ export function AppSidebar({
                             </p>
                         </div>
                     </div>
-                </Card>
+                </Card>*/}
                 {all_tahun_ajaran && (
-                    <div className="mx-3 mb-3">
+                    <div className="mx-3 mb-3 mt-auto">
                         <Select
                             value={active_tahun_ajaran?.id || ""}
                             onValueChange={handleTahunAjaranChange}
