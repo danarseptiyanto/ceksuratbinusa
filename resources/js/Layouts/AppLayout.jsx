@@ -1,9 +1,35 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import {
+    Calculator,
+    Calendar,
+    CreditCard,
+    FileCheck,
+    FileInput,
+    FileOutput,
+    LayoutGrid,
+    Settings,
+    Smile,
+    User,
+    User2,
+    UserPen,
+} from "lucide-react";
+import React, { useState, useEffect } from "react";
+import {
+    CommandDialog,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+    CommandSeparator,
+    CommandShortcut,
+} from "@/components/ui/command";
+import { Kbd } from "@/components/ui/kbd"
+
+import {
     BadgeCheck,
     Bell,
     ChevronsUpDown,
-    CreditCard,
     LogOut,
     Sparkles,
 } from "lucide-react";
@@ -33,6 +59,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Head, Link, usePage, router } from "@inertiajs/react";
 import FlashMessage from "@/Components/FlashMessage";
+import { Button } from "@/Components/ui/button";
 
 export default function AppLayout({
     bc1 = "Dashboard",
@@ -46,6 +73,20 @@ export default function AppLayout({
         e.preventDefault();
         router.post(route("logout"));
     };
+
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        const down = (e) => {
+            if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                setOpen((prev) => !prev);
+            }
+        };
+
+        document.addEventListener("keydown", down);
+        return () => document.removeEventListener("keydown", down);
+    }, []);
 
     return (
         <>
@@ -75,7 +116,10 @@ export default function AppLayout({
                                 </BreadcrumbList>
                             </Breadcrumb>
                         </div>
-                        <div className="px-4">
+                        <div className="px-4 inline-flex gap-1.5">
+                            <Button onClick={() => setOpen(true)} variant="outline" size="sm" className="pr-2 h-8 text-[13px] rounded-lg text-muted-foreground font-normal">
+                                Cari Fitur.. <Kbd className="ml-2">Ctrl</Kbd><Kbd className="-ms-1">J</Kbd>
+                            </Button>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Avatar className="h-8 w-8 cursor-pointer rounded-lg">
@@ -143,6 +187,62 @@ export default function AppLayout({
                         </div>
                     </header>
                     <div className="flex flex-1 flex-col gap-4 p-5 pt-0">
+                        <CommandDialog open={open} onOpenChange={setOpen}>
+                            <CommandInput
+                                placeholder="Cari fitur atau perintah lainnya.."
+                                className="focus:outline-none border-none focus:ring-0 focus:ring-offset-0"
+                            />
+                            <CommandList>
+                                <CommandEmpty>No results found.</CommandEmpty>
+                                <CommandGroup heading="Surat">
+                                    <Link href={route("dashboard")}>
+                                        <CommandItem className="cursor-pointer">
+                                            <LayoutGrid className="!h-4 !w-4 text-muted-foreground" />
+                                            <span>Dashboard</span>
+                                        </CommandItem>
+                                    </Link>
+                                    <Link href={route("surat.index")}>
+                                        <CommandItem className="cursor-pointer">
+                                            <FileOutput className="!h-4 !w-4 text-muted-foreground" />
+                                            <span>Surat Keluar</span>
+                                        </CommandItem>
+                                    </Link>
+                                    <Link href={route("surat.index")}>
+                                        <CommandItem className="cursor-pointer">
+                                            <FileCheck className="!h-4 !w-4 text-muted-foreground" />
+                                            <span>Surat Internal</span>
+                                        </CommandItem>
+                                    </Link>
+                                    <Link href={route("surat-masuk.index")}>
+                                        <CommandItem className="cursor-pointer">
+                                            <FileInput className="!h-4 !w-4 text-muted-foreground" />
+                                            <span>Surat Masuk</span>
+                                        </CommandItem>
+                                    </Link>
+                                    <Link href={route("surat-masuk.index")}>
+                                        <CommandItem className="cursor-pointer">
+                                            <Calendar className="!h-4 !w-4 text-muted-foreground" />
+                                            <span>Tahun Ajaran</span>
+                                        </CommandItem>
+                                    </Link>
+                                </CommandGroup>
+                                <CommandSeparator />
+                                <CommandGroup heading="Akun" className="mt-2">
+                                    <Link href="/profile">
+                                        <CommandItem className="cursor-pointer">
+                                            <User2 className="!h-4 !w-4 text-muted-foreground" />
+                                            <span>Edit Profil</span>
+                                        </CommandItem>
+                                    </Link>
+                                    <Link href="/profile">
+                                        <CommandItem className="cursor-pointer">
+                                            <UserPen className="!h-4 !w-4 text-muted-foreground" />
+                                            <span>Edit Password</span>
+                                        </CommandItem>
+                                    </Link>
+                                </CommandGroup>
+                            </CommandList>
+                        </CommandDialog>
                         <main>
                             <article>{children}</article>
                             <FlashMessage />

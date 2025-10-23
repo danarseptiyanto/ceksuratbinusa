@@ -22,6 +22,7 @@ import {
     UploadCloud,
     Eye,
     Send,
+    Filter,
 } from "lucide-react";
 import {
     Dialog,
@@ -177,7 +178,7 @@ export default function Index({ surats }) {
                     </div>
                     <Select value={filterType} onValueChange={setFilterType}>
                         <SelectTrigger className="relative w-44">
-                            <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                            <Filter className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
                             <div className="pl-6">
                                 <SelectValue placeholder="Filter by type" />
                             </div>
@@ -531,7 +532,7 @@ export default function Index({ surats }) {
                                         className={cn(
                                             "w-full justify-start text-left font-normal",
                                             !data.tanggal_surat &&
-                                                "text-muted-foreground",
+                                            "text-muted-foreground",
                                         )}
                                     >
                                         <CalendarIcon className="mr-2 h-4 w-4" />
