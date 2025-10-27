@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('surat-masuk', SuratMasukController::class);
     Route::delete('/surat-masuk/{suratMasuk}/delete-file', [SuratMasukController::class, 'deleteFile'])->name('surat-masuk.deleteFile');
+    Route::resource('users', \App\Http\Controllers\UserController::class);
 });
 
 Route::get('/verify/{slug}', [VerificationController::class, 'show'])->name('surat.verify');

@@ -95,6 +95,7 @@ export default function AppLayout({
                 <AppSidebar
                     all_tahun_ajaran={all_tahun_ajaran}
                     active_tahun_ajaran={active_tahun_ajaran}
+                    user={auth.user}
                 />
                 <SidebarInset>
                     <header className="flex h-[50px] shrink-0 items-center justify-between gap-2 border-b">
