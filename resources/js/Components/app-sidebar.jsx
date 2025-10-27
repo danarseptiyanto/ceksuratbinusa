@@ -20,6 +20,7 @@ import {
     Settings2,
     SquareTerminal,
     TextAlignStart,
+    User,
 } from "lucide-react";
 
 import { Link } from "@inertiajs/react";
@@ -83,13 +84,15 @@ const data = {
 export function AppSidebar({
     all_tahun_ajaran,
     active_tahun_ajaran,
+    user,
     ...props
 }) {
     const handleTahunAjaranChange = (newTahunAjaranId) => {
         window.location.href = route("tahun-ajaran.switch", newTahunAjaranId);
     };
     return (
-        <Sidebar variant="inset" {...props}>
+        // <Sidebar variant="inset" {...props}>
+        <Sidebar variant="" {...props}>
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
@@ -211,6 +214,17 @@ export function AppSidebar({
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
+                        {(user?.email === "tu@binusasmg.sch.id" ||
+                            user?.email === "ops@binusasmg.sch.id") && (
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild>
+                                    <Link href={route("users.index")}>
+                                        <User />
+                                        <span>Manajemen User</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        )}
                         {/* <SidebarMenuItem>
                             <SidebarMenuButton asChild>
                                 <Link href="#">
