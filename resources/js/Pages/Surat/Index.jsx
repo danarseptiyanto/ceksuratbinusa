@@ -237,7 +237,10 @@ export default function Index({ surats }) {
                                     <TableCell className="border-r">
                                         <HoverCard>
                                             <HoverCardTrigger>
-                                                <Badge className="h-6 cursor-pointer font-medium">
+                                                <Badge
+                                                    variant="outline"
+                                                    className="h-6 max-w-48 cursor-pointer truncate font-medium"
+                                                >
                                                     {surat.nomor_surat}
                                                 </Badge>
                                             </HoverCardTrigger>
@@ -328,8 +331,13 @@ export default function Index({ surats }) {
                                             </HoverCardContent>
                                         </HoverCard>
                                     </TableCell>
-                                    <TableCell className="border-r">
-                                        {surat.nama_surat}
+                                    <TableCell className="max-w-0 border-r">
+                                        <div
+                                            className="truncate"
+                                            title={surat.nama_surat}
+                                        >
+                                            {surat.nama_surat}
+                                        </div>
                                     </TableCell>
                                     <TableCell className="whitespace-nowrap border-r capitalize">
                                         {surat.tipe}

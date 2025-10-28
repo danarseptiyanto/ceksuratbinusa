@@ -91,8 +91,7 @@ export function AppSidebar({
         window.location.href = route("tahun-ajaran.switch", newTahunAjaranId);
     };
     return (
-        // <Sidebar variant="inset" {...props}>
-        <Sidebar variant="" {...props}>
+        <Sidebar variant="inset" {...props}>
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>

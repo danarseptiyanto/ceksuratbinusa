@@ -318,9 +318,7 @@ export default function Index({ suratMasuks }) {
                             <TableHead className="w-full border-r">
                                 Perihal
                             </TableHead>
-                            <TableHead className="whitespace-nowrap border-r">
-                                Pengirim
-                            </TableHead>
+                            <TableHead className="border-r">Pengirim</TableHead>
                             <TableHead className="w-[150px] text-nowrap border-r">
                                 Tanggal Surat
                             </TableHead>
@@ -345,7 +343,10 @@ export default function Index({ suratMasuks }) {
                                     <TableCell className="border-r">
                                         <HoverCard>
                                             <HoverCardTrigger>
-                                                <Badge className="h-6 cursor-pointer font-medium">
+                                                <Badge
+                                                    variant="outline"
+                                                    className="h-6 max-w-52 cursor-pointer truncate font-medium"
+                                                >
                                                     {surat.nomor_surat}
                                                 </Badge>
                                             </HoverCardTrigger>
@@ -420,11 +421,22 @@ export default function Index({ suratMasuks }) {
                                             </HoverCardContent>
                                         </HoverCard>
                                     </TableCell>
-                                    <TableCell className="border-r">
-                                        {surat.nama_surat}
+                                    <TableCell className="max-w-0 border-r">
+                                        <div
+                                            className="truncate"
+                                            title={surat.nama_surat}
+                                        >
+                                            {surat.nama_surat}
+                                        </div>
                                     </TableCell>
-                                    <TableCell className="whitespace-nowrap border-r">
-                                        {surat.asal_surat}
+
+                                    <TableCell className="border-r">
+                                        <div
+                                            className="max-w-40 truncate"
+                                            title={surat.asal_surat}
+                                        >
+                                            {surat.asal_surat}
+                                        </div>
                                     </TableCell>
                                     <TableCell className="text-nowrap border-r">
                                         {new Date(
