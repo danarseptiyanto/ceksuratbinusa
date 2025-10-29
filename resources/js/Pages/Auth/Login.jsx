@@ -155,11 +155,11 @@ export default function Login({ status, canResetPassword }) {
                     </div>
                 </div>
                 <div className="relative hidden bg-muted lg:block">
-                    {/* <img
-                        src="https://ui.shadcn.com/placeholder.svg"
+                    <img
+                        src="/img/sslogin.png"
                         alt="Image"
                         className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-                    /> */}
+                    />
                 </div>
             </div>
         </>
