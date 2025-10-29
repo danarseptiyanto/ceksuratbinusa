@@ -39,6 +39,11 @@
         --sidebar-accent-foreground: 240 5.9% 10%;
         --sidebar-border: 220 13% 91%;
         --sidebar-ring: 217.2 91.2% 59.8%;
+        --chart-1: 0 0% 3.9%;
+        --chart-2: rgb(85, 179, 215);
+        --chart-3: rgb(90, 110, 190);
+        --chart-4: rgb(250, 215, 90);
+        --chart-5: rgb(240, 190, 90);
     }
     .dark {
         --background: 0 0% 3.9%;
@@ -73,6 +78,11 @@
         --sidebar-accent-foreground: 240 4.8% 95.9%;
         --sidebar-border: 240 3.7% 15.9%;
         --sidebar-ring: 217.2 91.2% 59.8%;
+        --chart-1: rgb(123, 100, 210); /* oklch(0.488 0.243 264.376) */
+        --chart-2: rgb(125, 215, 185); /* oklch(0.696 0.17 162.48) */
+        --chart-3: rgb(240, 190, 90); /* oklch(0.769 0.188 70.08) */
+        --chart-4: rgb(155, 100, 230); /* oklch(0.627 0.265 303.9) */
+        --chart-5: rgb(220, 120, 90); /* oklch(0.645 0.246 16.439) */
     }
 }
 

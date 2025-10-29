@@ -11,6 +11,7 @@ import StatCard from "@/Components/StatCard";
 import { Card } from "@/Components/ui/card";
 import { Button } from "@/Components/ui/button";
 import { Arrow } from "@radix-ui/react-dropdown-menu";
+import { ChartBarInteractive } from "@/Components/ChartBarInteractive";
 
 export default function Page() {
     const {
@@ -19,6 +20,7 @@ export default function Page() {
         latest_surat_keluar,
         latest_surat_internal,
         latest_surat_masuk,
+        chart_data,
     } = usePage().props;
 
     return (
@@ -65,122 +67,133 @@ export default function Page() {
                     />
                 </div>
             </div>
-            <div className="space-y-6 py-6">
-                <Card className="p-6">
-                    <div className="mb-3 flex items-center justify-between">
-                        <div className="space-y-1">
-                            <h2 className="text-lg font-semibold leading-none tracking-tight">
-                                Surat Keluar
-                            </h2>
-                            <p className="text-balance text-sm text-muted-foreground">
-                                Surat keluar terbaru yang telah dibuat pada
-                                sistem.
-                            </p>
-                        </div>
-                        <Button
-                            variant=""
-                            size="sm"
-                            onClick={() => router.visit(route("surat.index"))}
-                        >
-                            Surat Keluar <ArrowUpRight className="" size={14} />
-                        </Button>
-                    </div>
-                    {latest_surat_keluar.length > 0 ? (
-                        latest_surat_keluar.map((surat, index) => (
-                            <tr
-                                key={surat.id}
-                                className={`flex w-full items-center justify-between ${
-                                    index !== latest_surat_keluar.length - 1
-                                        ? "border-b"
-                                        : ""
-                                }`}
+            <div className="pt-5">
+                <ChartBarInteractive chartData={chart_data} />
+            </div>
+            <div className="grid grid-cols-2 items-start gap-4 py-6">
+                <div className="flex flex-col gap-4">
+                    <Card className="p-6">
+                        <div className="mb-3 flex items-center justify-between">
+                            <div className="space-y-1">
+                                <h2 className="text-lg font-semibold leading-none tracking-tight">
+                                    Surat Keluar
+                                </h2>
+                                <p className="text-balance text-sm text-muted-foreground">
+                                    Surat keluar terbaru yang telah dibuat pada
+                                    sistem.
+                                </p>
+                            </div>
+                            <Button
+                                variant=""
+                                size="sm"
+                                onClick={() =>
+                                    router.visit(route("surat.index"))
+                                }
                             >
-                                <td className="py-3 align-middle">
-                                    <div className="text-sm font-medium">
-                                        {surat.nomor_surat}
-                                    </div>
-                                    <div className="hidden text-sm text-muted-foreground md:inline">
-                                        {surat.nama_surat}
-                                    </div>
-                                </td>
+                                Surat Keluar{" "}
+                                <ArrowUpRight className="" size={14} />
+                            </Button>
+                        </div>
+                        {latest_surat_keluar.length > 0 ? (
+                            latest_surat_keluar.map((surat, index) => (
+                                <tr
+                                    key={surat.id}
+                                    className={`flex w-full items-center justify-between ${
+                                        index !== latest_surat_keluar.length - 1
+                                            ? "border-b"
+                                            : ""
+                                    }`}
+                                >
+                                    <td className="py-3 align-middle">
+                                        <div className="text-sm font-medium">
+                                            {surat.nomor_surat}
+                                        </div>
+                                        <div className="hidden text-sm text-muted-foreground md:inline">
+                                            {surat.nama_surat}
+                                        </div>
+                                    </td>
 
-                                <td className="text-right align-middle text-sm">
-                                    {new Date(
-                                        surat.tanggal_surat,
-                                    ).toLocaleDateString("id-ID", {
-                                        day: "numeric",
-                                        month: "short",
-                                        year: "numeric",
-                                    })}
+                                    <td className="whitespace-nowrap text-right align-middle text-sm">
+                                        {new Date(
+                                            surat.tanggal_surat,
+                                        ).toLocaleDateString("id-ID", {
+                                            day: "numeric",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr className="mt-5 flex w-full items-center justify-center rounded-md border border-dashed p-10">
+                                <td className="text-sm text-muted-foreground">
+                                    Surat keluar kosong
                                 </td>
                             </tr>
-                        ))
-                    ) : (
-                        <tr className="mt-5 flex w-full items-center justify-center rounded-md border border-dashed p-10">
-                            <td className="text-sm text-muted-foreground">
-                                Surat keluar kosong
-                            </td>
-                        </tr>
-                    )}
-                </Card>
-                <Card className="p-6">
-                    <div className="mb-3 flex items-center justify-between">
-                        <div className="space-y-1">
-                            <h2 className="text-lg font-semibold leading-none tracking-tight">
+                        )}
+                    </Card>
+                    <Card className="p-6">
+                        <div className="mb-3 flex items-center justify-between">
+                            <div className="space-y-1">
+                                <h2 className="text-lg font-semibold leading-none tracking-tight">
+                                    Surat Internal
+                                </h2>
+                                <p className="text-balance text-sm text-muted-foreground">
+                                    Surat keluar terbaru yang telah dibuat pada
+                                    sistem.
+                                </p>
+                            </div>
+                            <Button
+                                variant=""
+                                size="sm"
+                                onClick={() =>
+                                    router.visit(route("surat.index"))
+                                }
+                            >
                                 Surat Internal
-                            </h2>
-                            <p className="text-balance text-sm text-muted-foreground">
-                                Surat keluar terbaru yang telah dibuat pada
-                                sistem.
-                            </p>
+                                <ArrowUpRight className="" size={14} />
+                            </Button>
                         </div>
-                        <Button
-                            variant=""
-                            size="sm"
-                            onClick={() => router.visit(route("surat.index"))}
-                        >
-                            Surat Internal
-                            <ArrowUpRight className="" size={14} />
-                        </Button>
-                    </div>
-                    {latest_surat_internal.length > 0 ? (
-                        latest_surat_internal.map((surat, index) => (
-                            <tr
-                                key={surat.id}
-                                className={`flex w-full items-center justify-between ${
-                                    index !== latest_surat_internal.length - 1
-                                        ? "border-b"
-                                        : ""
-                                }`}
-                            >
-                                <td className="py-3 align-middle">
-                                    <div className="text-sm font-medium">
-                                        {surat.nomor_surat}
-                                    </div>
-                                    <div className="hidden text-sm text-muted-foreground md:inline">
-                                        {surat.nama_surat}
-                                    </div>
-                                </td>
+                        {latest_surat_internal.length > 0 ? (
+                            latest_surat_internal.map((surat, index) => (
+                                <tr
+                                    key={surat.id}
+                                    className={`flex w-full items-center justify-between ${
+                                        index !==
+                                        latest_surat_internal.length - 1
+                                            ? "border-b"
+                                            : ""
+                                    }`}
+                                >
+                                    <td className="py-3 align-middle">
+                                        <div className="text-sm font-medium">
+                                            {surat.nomor_surat}
+                                        </div>
+                                        <div className="hidden text-sm text-muted-foreground md:inline">
+                                            {surat.nama_surat}
+                                        </div>
+                                    </td>
 
-                                <td className="text-right align-middle text-sm">
-                                    {new Date(
-                                        surat.tanggal_surat,
-                                    ).toLocaleDateString("id-ID", {
-                                        day: "numeric",
-                                        month: "short",
-                                        year: "numeric",
-                                    })}
+                                    <td className="whitespace-nowrap text-right align-middle text-sm">
+                                        {new Date(
+                                            surat.tanggal_surat,
+                                        ).toLocaleDateString("id-ID", {
+                                            day: "numeric",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr className="mt-5 flex w-full items-center justify-center rounded-md border border-dashed p-10">
+                                <td className="text-sm text-muted-foreground">
+                                    Surat internal kosong
                                 </td>
                             </tr>
-                        ))
-                    ) : (
-                        <tr className="mt-5 flex w-full items-center justify-center rounded-md border border-dashed p-10">
-                            <td className="text-sm text-muted-foreground">
-                                Surat internal kosong
-                            </td>
-                        </tr>
-                    )}
-                </Card>
+                        )}
+                    </Card>
+                </div>
                 <Card className="p-6">
                     <div className="mb-3 flex items-center justify-between">
                         <div className="space-y-1">
@@ -221,7 +234,7 @@ export default function Page() {
                                     </div>
                                 </td>
 
-                                <td className="text-right align-middle text-sm">
+                                <td className="whitespace-nowrap text-right align-middle text-sm">
                                     {new Date(
                                         surat.tanggal_surat,
                                     ).toLocaleDateString("id-ID", {
