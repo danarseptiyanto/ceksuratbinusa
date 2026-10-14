@@ -129,8 +129,8 @@ export default function Index({ suratMasuks, filters }) {
                     Buat, kelola, atau hapus daftar surat masuk.
                 </p>
             </div>
-            <div className="mb-4 mt-5 flex items-center justify-between">
-                <div className="relative w-72">
+            <div className="mb-4 mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="relative w-full sm:w-72">
                     <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
                     <Input
                         type="text"
@@ -143,11 +143,11 @@ export default function Index({ suratMasuks, filters }) {
                 {/* --- MODIFICATION START --- */}
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
-                        <Button variant="default">
+                        <Button variant="default" className="w-full sm:w-auto">
                             <CirclePlus className="h-4 w-4" /> Tambah
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[725px]">
+                    <DialogContent className="max-h-[90dvh] overflow-y-auto p-4 sm:max-w-[725px] sm:p-6">
                         <form onSubmit={submit} className="space-y-4">
                             <DialogHeader>
                                 <DialogTitle>Formulir Surat Masuk</DialogTitle>
@@ -320,7 +320,7 @@ export default function Index({ suratMasuks, filters }) {
                 {/* --- MODIFICATION END --- */}
             </div>
 
-            <div className="overflow-hidden rounded-lg border">
+            <div className="hidden overflow-hidden rounded-lg border md:block">
                 <Table>
                     <TableHeader className="bg-muted/50">
                         <TableRow>
@@ -548,6 +548,122 @@ export default function Index({ suratMasuks, filters }) {
                         )}
                     </TableBody>
                 </Table>
+            </div>
+
+            {/* Mobile card list — md:hidden only, desktop table above unchanged */}
+            <div className="space-y-2 md:hidden">
+                {suratMasuks.data.length > 0 ? (
+                    suratMasuks.data.map((surat) => (
+                        <div
+                            key={surat.id}
+                            className="rounded-lg border bg-card px-3.5 py-3 shadow-sm"
+                        >
+                            <div className="flex items-center justify-between gap-2">
+                                <Badge
+                                    variant="outline"
+                                    className="max-w-[75%] truncate font-medium"
+                                >
+                                    {surat.nomor_surat}
+                                </Badge>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            className="-mr-1 h-7 w-7 shrink-0 p-0"
+                                        >
+                                            <span className="sr-only">
+                                                Open menu
+                                            </span>
+                                            <MoreHorizontal className="h-4 w-4" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent
+                                        align="end"
+                                        className="w-36"
+                                    >
+                                        {surat.file_path && (
+                                            <DropdownMenuItem
+                                                className="cursor-pointer"
+                                                asChild
+                                            >
+                                                <a
+                                                    href={`/storage/${surat.file_path}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    Lihat File
+                                                </a>
+                                            </DropdownMenuItem>
+                                        )}
+                                        <DropdownMenuItem
+                                            className="cursor-pointer"
+                                            asChild
+                                        >
+                                            <Link
+                                                href={route(
+                                                    "surat-masuk.edit",
+                                                    surat.id,
+                                                )}
+                                            >
+                                                Edit
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem
+                                            className="cursor-pointer text-red-600 focus:text-red-600"
+                                            onClick={(e) =>
+                                                handleDelete(e, surat.id)
+                                            }
+                                        >
+                                            Delete
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </div>
+                            <p
+                                className="mt-1.5 line-clamp-2 text-sm font-medium leading-tight"
+                                title={surat.nama_surat}
+                            >
+                                {surat.nama_surat}
+                            </p>
+                            <div className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-muted-foreground">
+                                <span className="inline-flex items-center gap-1 text-nowrap">
+                                    <CalendarCheck size={14} />
+                                    {new Date(
+                                        surat.tanggal_surat,
+                                    ).toLocaleDateString("id-ID", {
+                                        day: "numeric",
+                                        month: "short",
+                                        year: "numeric",
+                                    })}
+                                </span>
+                                <span className="inline-flex items-center gap-1">
+                                    {surat.file_path ? (
+                                        <>
+                                            <CircleCheck
+                                                size={14}
+                                                className="text-green-500"
+                                            />
+                                            File ada
+                                        </>
+                                    ) : (
+                                        <>
+                                            <CircleAlert
+                                                size={14}
+                                                className="text-red-500"
+                                            />
+                                            File belum ada
+                                        </>
+                                    )}
+                                </span>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="rounded-lg border p-4 text-center text-sm text-muted-foreground">
+                        Tidak ada data ditemukan.
+                    </div>
+                )}
             </div>
 
             <Pagination

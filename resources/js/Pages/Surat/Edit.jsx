@@ -299,13 +299,21 @@ export default function Edit({ surat }) {
                                     </div>
                                 </div>
                             </CardContent>
-                            <CardFooter className="flex justify-end gap-2 rounded-b-lg border-t bg-muted pt-5">
-                                <Button asChild variant="outline">
+                            <CardFooter className="flex flex-col-reverse gap-2 rounded-b-lg border-t bg-muted pt-5 sm:flex-row sm:justify-end">
+                                <Button
+                                    asChild
+                                    variant="outline"
+                                    className="w-full sm:w-auto"
+                                >
                                     <Link href={route("surat.index")}>
                                         Cancel
                                     </Link>
                                 </Button>
-                                <Button type="submit" disabled={processing}>
+                                <Button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="w-full sm:w-auto"
+                                >
                                     {processing && (
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     )}
