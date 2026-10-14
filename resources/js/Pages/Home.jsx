@@ -16,16 +16,16 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { SquareArrowOutUpRight, FileDigit, Info, Search } from "lucide-react";
-import { Button } from "@/Components/ui/button";
+import { Button } from "@/components/ui/button";
 import { WordRotate } from "@/components/ui/word-rotate";
 import { FlickeringGrid } from "@/components/ui/flickering-grid";
 import { InteractiveGridPattern } from "@/components/ui/interactive-grid-pattern";
 import { cn } from "@/lib/utils";
-import { Card } from "@/Components/ui/card";
-import { Input } from "@/Components/ui/input";
-import Footer from "@/Components/Footer";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import Footer from "@/components/Footer";
 import { Head, useForm } from "@inertiajs/react";
-import Navbar from "@/Components/Navbar";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
     const { data, setData, post, errors, processing } = useForm({

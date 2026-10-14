@@ -2,29 +2,29 @@ import AppLayout from "../../Layouts/AppLayout";
 import { Head, useForm, Link, router } from "@inertiajs/react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon, Loader2, Trash2 } from "lucide-react";
-import { Button } from "../../Components/ui/button";
+import { Button } from "../../components/ui/button";
 import {
     Card,
     CardContent,
     CardFooter,
     CardHeader,
-} from "../../Components/ui/card";
-import { Input } from "../../Components/ui/input";
-import { Label } from "../../Components/ui/label";
-import { Calendar } from "../../Components/ui/calendar";
+} from "../../components/ui/card";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
+import { Calendar } from "../../components/ui/calendar";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-} from "../../Components/ui/popover";
+} from "../../components/ui/popover";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "../../Components/ui/select";
-import { Checkbox } from "../../Components/ui/checkbox";
+} from "../../components/ui/select";
+import { Checkbox } from "../../components/ui/checkbox";
 import { cn } from "../../lib/utils";
 export default function Edit({ surat }) {
     const { data, setData, post, errors, processing } = useForm({

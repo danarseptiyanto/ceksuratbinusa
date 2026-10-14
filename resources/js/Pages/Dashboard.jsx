@@ -7,11 +7,11 @@ import {
     CalendarClock,
     ArrowUpRight,
 } from "lucide-react";
-import StatCard from "@/Components/StatCard";
-import { Card } from "@/Components/ui/card";
-import { Button } from "@/Components/ui/button";
+import StatCard from "@/components/StatCard";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Arrow } from "@radix-ui/react-dropdown-menu";
-import { ChartBarInteractive } from "@/Components/ChartBarInteractive";
+import { ChartBarInteractive } from "@/components/ChartBarInteractive";
 
 export default function Page() {
     const {

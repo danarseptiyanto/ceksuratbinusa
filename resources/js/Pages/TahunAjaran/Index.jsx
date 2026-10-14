@@ -1,7 +1,7 @@
 import React from "react";
 import AppLayout from "@/Layouts/AppLayout";
 import { Link, useForm } from "@inertiajs/react";
-import { Button } from "@/Components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Pencil, Trash2, Plus } from "lucide-react";
 
 export default function Index({ tahunAjarans }) {

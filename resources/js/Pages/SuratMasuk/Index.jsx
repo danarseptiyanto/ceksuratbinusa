@@ -1,6 +1,6 @@
 // resources/js/Pages/SuratMasuk/Index.jsx
 import AppLayout from "@/Layouts/AppLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm, router } from "@inertiajs/react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
@@ -51,19 +51,21 @@ import {
     DialogClose,
     DialogTrigger, // Added for idiomatic dialog opening
 } from "@/components/ui/dialog";
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { Badge } from "@/Components/ui/badge";
+import { Badge } from "@/components/ui/badge";
+import Pagination from "@/components/pagination";
 
-export default function Index({ suratMasuks }) {
+export default function Index({ suratMasuks, filters }) {
     const { delete: destroy } = useForm();
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState(filters?.search ?? "");
     const [open, setOpen] = useState(false); // State to control the dialog
+    const isFirstRender = useRef(true);
 
     const { data, setData, post, errors, processing, reset } = useForm({
         // Added 'reset'
@@ -95,13 +97,26 @@ export default function Index({ suratMasuks }) {
         }
     }
 
-    const filteredSuratMasuks = suratMasuks.filter(
-        (surat) =>
-            surat.nomor_surat
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase()) ||
-            surat.nama_surat.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+    const fetchPage = useCallback((page, search) => {
+        router.get(
+            route("surat-masuk.index"),
+            { search: search || undefined, page },
+            { preserveState: true, preserveScroll: true },
+        );
+    }, []);
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+
+        const timeout = setTimeout(() => {
+            fetchPage(1, searchTerm);
+        }, 400);
+
+        return () => clearTimeout(timeout);
+    }, [searchTerm, fetchPage]);
 
     return (
         <AppLayout bc1="Surat Masuk" bc2="Daftar Surat Masuk">
@@ -331,14 +346,14 @@ export default function Index({ suratMasuks }) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {filteredSuratMasuks.length > 0 ? (
-                            filteredSuratMasuks.map((surat, index) => (
+                        {suratMasuks.data.length > 0 ? (
+                            suratMasuks.data.map((surat, index) => (
                                 <TableRow
                                     key={surat.id}
                                     className="hover:bg-muted/50"
                                 >
                                     <TableCell className="border-r text-center font-medium">
-                                        {index + 1}
+                                        {suratMasuks.from + index}
                                     </TableCell>
                                     <TableCell className="border-r">
                                         <HoverCard>
@@ -534,6 +549,11 @@ export default function Index({ suratMasuks }) {
                     </TableBody>
                 </Table>
             </div>
+
+            <Pagination
+                meta={suratMasuks}
+                onPageChange={(page) => fetchPage(page, searchTerm)}
+            />
         </AppLayout>
     );
 }

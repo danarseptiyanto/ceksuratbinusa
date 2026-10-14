@@ -58,8 +58,8 @@ import {
     SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Head, Link, usePage, router } from "@inertiajs/react";
-import FlashMessage from "@/Components/FlashMessage";
-import { Button } from "@/Components/ui/button";
+import FlashMessage from "@/components/FlashMessage";
+import { Button } from "@/components/ui/button";
 
 export default function AppLayout({
     bc1 = "Dashboard",

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
 use App\Models\Surat;
 use Illuminate\Http\Request;
-use Intervention\Image\Image;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Response;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Inertia\Inertia;
 
 class SuratController extends Controller
 {
@@ -19,17 +16,37 @@ class SuratController extends Controller
     {
         $activeTahunAjaranId = $request->session()->get('active_tahun_ajaran_id');
 
-        if (!$activeTahunAjaranId) {
+        if (! $activeTahunAjaranId) {
             // Redirect or show a message if no academic year is set
             return redirect()->route('dashboard')->with('error', 'Please select an academic year.');
         }
 
-        $surats = Surat::with('user')->where('tahun_ajaran_id', $activeTahunAjaranId)
+        $search = trim((string) $request->query('search', ''));
+        $tipe = (string) $request->query('tipe', 'all');
+
+        if (! in_array($tipe, ['surat keluar', 'surat internal'], true)) {
+            $tipe = 'all';
+        }
+
+        $surats = Surat::with('user')
+            ->where('tahun_ajaran_id', $activeTahunAjaranId)
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('nomor_surat', 'like', '%'.$search.'%')
+                        ->orWhere('nama_surat', 'like', '%'.$search.'%');
+                });
+            })
+            ->when($tipe !== 'all', fn ($query) => $query->where('tipe', $tipe))
             ->orderBy('id', 'desc')
-            ->get(); // Using pagination
+            ->paginate(20)
+            ->withQueryString();
 
         return Inertia::render('Surat/Index', [
-            'surats' => $surats
+            'surats' => $surats,
+            'filters' => [
+                'search' => $search,
+                'tipe' => $tipe,
+            ],
         ]);
     }
 
@@ -118,8 +135,10 @@ class SuratController extends Controller
             Storage::disk('public')->delete($surat->file_path);
         }
         $surat->delete();
+
         return redirect()->route('surat.index')->with('success', 'Surat deleted successfully.');
     }
+
     public function deleteFile(Surat $surat)
     {
         // Check if a file path exists and delete it from storage

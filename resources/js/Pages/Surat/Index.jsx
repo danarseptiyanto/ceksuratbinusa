@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { format } from "date-fns";
-import QRDownload from "./QRdownload";
+import QRDownload from "./QRDownload";
 import {
     HoverCard,
     HoverCardContent,
@@ -68,15 +68,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/Components/ui/badge";
+import { Badge } from "@/components/ui/badge";
+import Pagination from "@/components/pagination";
 
-export default function Index({ surats }) {
+export default function Index({ surats, filters }) {
     const { delete: destroy } = useForm();
-    const [searchTerm, setSearchTerm] = useState("");
-    const [filterType, setFilterType] = useState("all");
+    const [searchTerm, setSearchTerm] = useState(filters?.search ?? "");
+    const [filterType, setFilterType] = useState(filters?.tipe ?? "all");
     const [open, setOpen] = useState(false);
     const { url } = usePage();
     const hasOpened = useRef(false); // 🧠 guard
+    const isFirstRender = useRef(true);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -88,6 +90,27 @@ export default function Index({ surats }) {
             window.history.replaceState({}, "", route("surat.index"));
         }
     }, []);
+
+    const fetchPage = useCallback((page, search, tipe) => {
+        router.get(
+            route("surat.index"),
+            { search: search || undefined, tipe, page },
+            { preserveState: true, preserveScroll: true },
+        );
+    }, []);
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+
+        const timeout = setTimeout(() => {
+            fetchPage(1, searchTerm, filterType);
+        }, 400);
+
+        return () => clearTimeout(timeout);
+    }, [searchTerm, filterType, fetchPage]);
 
     const today = new Date();
     const year = today.getFullYear();
@@ -128,24 +151,6 @@ export default function Index({ surats }) {
         });
     }
 
-    const filteredSurats = useMemo(() => {
-        let filtered = surats;
-        if (searchTerm) {
-            filtered = filtered.filter(
-                (surat) =>
-                    surat.nomor_surat
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase()) ||
-                    surat.nama_surat
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase()),
-            );
-        }
-        if (filterType !== "all") {
-            filtered = filtered.filter((surat) => surat.tipe === filterType);
-        }
-        return filtered;
-    }, [surats, searchTerm, filterType]);
     function handleDelete(e, suratId) {
         e.preventDefault();
         if (confirm("Are you sure you want to delete this item?")) {
@@ -225,14 +230,14 @@ export default function Index({ surats }) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {filteredSurats.length > 0 ? (
-                            filteredSurats.map((surat, index) => (
+                        {surats.data.length > 0 ? (
+                            surats.data.map((surat, index) => (
                                 <TableRow key={surat.id}>
                                     <TableCell
                                         className="border-r text-center"
                                         scope="row"
                                     >
-                                        {index + 1}
+                                        {surats.from + index}
                                     </TableCell>
                                     <TableCell className="border-r">
                                         <HoverCard>
@@ -458,6 +463,11 @@ export default function Index({ surats }) {
                     </TableBody>
                 </Table>
             </div>
+
+            <Pagination
+                meta={surats}
+                onPageChange={(page) => fetchPage(page, searchTerm, filterType)}
+            />
 
             {/* Dialog Form */}
             <Dialog open={open} onOpenChange={setOpen}>

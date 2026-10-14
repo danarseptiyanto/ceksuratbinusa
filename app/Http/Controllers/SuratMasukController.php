@@ -2,26 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\SuratMasuk;
-use Inertia\Inertia;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class SuratMasukController extends Controller
 {
     public function index(Request $request)
     {
         $activeTahunAjaranId = $request->session()->get('active_tahun_ajaran_id');
-        if (!$activeTahunAjaranId) {
+        if (! $activeTahunAjaranId) {
             return redirect()->route('dashboard')->with('error', 'Please select an academic year.');
         }
 
-        $suratMasuks = SuratMasuk::with('user')->where('tahun_ajaran_id', $activeTahunAjaranId)
+        $search = trim((string) $request->query('search', ''));
+
+        $suratMasuks = SuratMasuk::with('user')
+            ->where('tahun_ajaran_id', $activeTahunAjaranId)
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('nomor_surat', 'like', '%'.$search.'%')
+                        ->orWhere('nama_surat', 'like', '%'.$search.'%');
+                });
+            })
             ->orderBy('id', 'desc')
-            ->get();
+            ->paginate(20)
+            ->withQueryString();
 
         return Inertia::render('SuratMasuk/Index', [
-            'suratMasuks' => $suratMasuks
+            'suratMasuks' => $suratMasuks,
+            'filters' => [
+                'search' => $search,
+            ],
         ]);
     }
 
@@ -91,6 +104,7 @@ class SuratMasukController extends Controller
             Storage::disk('public')->delete($suratMasuk->file_path);
         }
         $suratMasuk->delete();
+
         return redirect()->route('surat-masuk.index')->with('success', 'Surat masuk deleted successfully.');
     }
 
@@ -101,6 +115,7 @@ class SuratMasukController extends Controller
         }
         $suratMasuk->file_path = null;
         $suratMasuk->save();
+
         return redirect()->back()->with('success', 'File has been deleted successfully.');
     }
 }

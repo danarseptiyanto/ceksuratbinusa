@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Head, Link, useForm } from "@inertiajs/react";
-import Checkbox from "@/Components/Checkbox";
+import Checkbox from "@/components/Checkbox";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -166,11 +166,11 @@ export default function Login({ status, canResetPassword }) {
     );
 }
 
-// import Checkbox from '@/Components/Checkbox';
-// import InputError from '@/Components/InputError';
-// import InputLabel from '@/Components/InputLabel';
-// import PrimaryButton from '@/Components/PrimaryButton';
-// import TextInput from '@/Components/TextInput';
+// import Checkbox from '@/components/Checkbox';
+// import InputError from '@/components/InputError';
+// import InputLabel from '@/components/InputLabel';
+// import PrimaryButton from '@/components/PrimaryButton';
+// import TextInput from '@/components/TextInput';
 // import GuestLayout from '@/Layouts/GuestLayout';
 // import { Head, Link, useForm } from '@inertiajs/react';
 

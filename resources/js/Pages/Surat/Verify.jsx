@@ -12,10 +12,10 @@ import {
     SquareArrowOutUpRight,
 } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
-import { Button } from "@/Components/ui/button";
-import Footer from "@/Components/Footer";
-import FlashMessage from "@/Components/FlashMessage";
-import Navbar from "@/Components/Navbar";
+import { Button } from "@/components/ui/button";
+import Footer from "@/components/Footer";
+import FlashMessage from "@/components/FlashMessage";
+import Navbar from "@/components/Navbar";
 import { Head } from "@inertiajs/react";
 
 export default function Show({ surat, verificationUrl }) {
