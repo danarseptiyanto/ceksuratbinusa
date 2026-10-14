@@ -7,6 +7,7 @@ import {
     FileInput,
     FileOutput,
     LayoutGrid,
+    Search,
     Settings,
     Smile,
     User,
@@ -24,7 +25,7 @@ import {
     CommandSeparator,
     CommandShortcut,
 } from "@/components/ui/command";
-import { Kbd } from "@/components/ui/kbd"
+import { Kbd } from "@/components/ui/kbd";
 
 import {
     BadgeCheck,
@@ -117,9 +118,24 @@ export default function AppLayout({
                                 </BreadcrumbList>
                             </Breadcrumb>
                         </div>
-                        <div className="px-4 inline-flex gap-1.5">
-                            <Button onClick={() => setOpen(true)} variant="outline" size="sm" className="pr-2 h-8 text-[13px] rounded-lg text-muted-foreground font-normal">
-                                Cari Fitur.. <Kbd className="ml-2">Ctrl</Kbd><Kbd className="-ms-1">J</Kbd>
+                        <div className="inline-flex gap-1.5 px-4">
+                            <Button
+                                onClick={() => setOpen(true)}
+                                variant="outline"
+                                size="sm"
+                                className="h-8 rounded-lg pr-2 text-[13px] font-normal text-muted-foreground"
+                            >
+                                <Search className="h-4 w-4 sm:hidden" />
+                                <span className="hidden sm:inline">
+                                    Cari Fitur..
+                                </span>
+                                <span className="sm:hidden">Cari..</span>{" "}
+                                <Kbd className="ml-2 hidden sm:inline-flex">
+                                    Ctrl
+                                </Kbd>
+                                <Kbd className="-ms-1 hidden sm:inline-flex">
+                                    J
+                                </Kbd>
                             </Button>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -191,7 +207,7 @@ export default function AppLayout({
                         <CommandDialog open={open} onOpenChange={setOpen}>
                             <CommandInput
                                 placeholder="Cari fitur atau perintah lainnya.."
-                                className="focus:outline-none border-none focus:ring-0 focus:ring-offset-0"
+                                className="border-none focus:outline-none focus:ring-0 focus:ring-offset-0"
                             />
                             <CommandList>
                                 <CommandEmpty>No results found.</CommandEmpty>

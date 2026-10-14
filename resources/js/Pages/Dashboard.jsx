@@ -70,7 +70,7 @@ export default function Page() {
             <div className="pt-5">
                 <ChartBarInteractive chartData={chart_data} />
             </div>
-            <div className="grid grid-cols-2 items-start gap-4 py-6">
+            <div className="hidden grid-cols-2 items-start gap-4 py-6 md:grid">
                 <div className="flex flex-col gap-4">
                     <Card className="p-6">
                         <div className="mb-3 flex items-center justify-between">

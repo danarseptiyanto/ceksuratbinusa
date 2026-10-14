@@ -187,20 +187,22 @@ export default function Edit({ suratMasuk }) {
                             Manajemen File PDF
                         </h3>
                         {suratMasuk.file_path ? (
-                            <div className="flex items-center justify-between rounded-md border bg-muted/50 p-3">
+                            <div className="flex flex-col gap-3 rounded-md border bg-muted/50 p-3 sm:flex-row sm:items-center sm:justify-between">
                                 <p className="text-sm font-medium">
                                     File saat ini terlampir.
                                 </p>
-                                <div className="flex items-center gap-2">
+                                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                                     <a
                                         href={`/storage/${suratMasuk.file_path}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        className="w-full sm:w-auto"
                                     >
                                         <Button
                                             type="button"
                                             variant="outline"
                                             size="sm"
+                                            className="w-full sm:w-auto"
                                         >
                                             <Eye className="mr-2 h-4 w-4" />
                                             Lihat File
@@ -210,6 +212,7 @@ export default function Edit({ suratMasuk }) {
                                         type="button"
                                         variant="destructive"
                                         size="sm"
+                                        className="w-full sm:w-auto"
                                         onClick={handleDeleteFile}
                                     >
                                         <Trash2 className="mr-2 h-4 w-4" />
@@ -248,13 +251,24 @@ export default function Edit({ suratMasuk }) {
                             )}
                         </div>
                     </div>
-                    <div className="mt-8 flex items-center justify-end gap-4">
-                        <Link href={route("surat-masuk.index")}>
-                            <Button type="button" variant="outline">
+                    <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
+                        <Link
+                            href={route("surat-masuk.index")}
+                            className="w-full sm:w-auto"
+                        >
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="w-full sm:w-auto"
+                            >
                                 Batal
                             </Button>
                         </Link>
-                        <Button type="submit" disabled={processing}>
+                        <Button
+                            type="submit"
+                            disabled={processing}
+                            className="w-full sm:w-auto"
+                        >
                             {processing ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
